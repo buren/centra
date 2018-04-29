@@ -34,7 +34,7 @@ if anonymized_output
   print "Writing anonymized order CSV-file #{anonymized_output}.."
   CSV.open(anonymized_output, 'w') do |anon_csv|
     anon_csv << centra_data.header
-    centra_data.rows.each do |row|
+    centra_data.each do |row|
       anon_csv << row.to_a
     end
   end

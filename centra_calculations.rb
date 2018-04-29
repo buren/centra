@@ -25,7 +25,7 @@ class CentraCalculations
     first_order_date = Time.new(3000, 1, 1)
     last_order_date = Time.new(1, 1, 1)
 
-    @data.rows.each do |row|
+    @data.each do |row|
       email = row.delivery_email
       orders_per_email[email] += 1
 
