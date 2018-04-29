@@ -1,6 +1,6 @@
 module Centra
   module Rule
-    class OrdersCalculator
+    class OrderCalculator
       def initialize(order_matcher)
         @order_matcher = order_matcher
 

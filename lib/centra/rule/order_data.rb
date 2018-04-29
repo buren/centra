@@ -3,7 +3,7 @@ require "centra/order"
 module Centra
   module Rule
     # Build order data
-    class OrdersData
+    class OrderData
       attr_reader :centra_orders, :rule_orders
 
       def initialize(centra_csv, rule_csv, date_range, countries)
