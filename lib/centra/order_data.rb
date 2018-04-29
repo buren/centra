@@ -24,6 +24,10 @@ module Centra
       rows.each(&block)
     end
 
+    def each_order(&block)
+      rows.each { |row| yield(Order.new(row)) }
+    end
+
     def anonymize!
       cache = AnonValue.new
 

@@ -1,4 +1,5 @@
 require "centra/order"
+require "centra/order_filter"
 
 module Centra
   module Rule
@@ -30,10 +31,11 @@ module Centra
 
       def build_centra_orders!(rows)
         orders = []
+        order_filter = OrderFilter.new(countries: @countries, date_range: @date_range)
+
         rows.each do |row|
           order = Order.new(row)
-          next if excluded_country?(order.delivery_country)
-          next unless @date_range.cover?(order.order_date)
+          next unless order_filter.allow?(order)
 
           @email_orders[order.email][:centra] << order
           orders << order
