@@ -38,7 +38,8 @@ date_range = Centra::DateRange.new(options[:start_date], options[:end_date])
 rule_csv = HoneyFormat::CSV.new(File.read(rule_orders_path), header_converter: Rule::CSVHeaderConverter)
 centra_csv = HoneyFormat::CSV.new(File.read(centra_orders_path), header_converter: Centra::CSVHeaderConverter)
 
-data = Rule::OrderData.new(centra_csv, rule_csv, date_range, countries)
+order_filter = Centra::OrderFilter.new(countries: countries, date_range: date_range)
+data = Rule::OrderData.new(centra_csv, rule_csv, order_filter)
 matcher = Rule::OrderMatcher.new(data)
 calculator = Rule::OrderCalculator.new(matcher)
 

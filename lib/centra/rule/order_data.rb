@@ -1,15 +1,11 @@
-require "centra/order"
-require "centra/order_filter"
-
 module Centra
   module Rule
     # Build order data
     class OrderData
-      attr_reader :centra_orders, :rule_orders
+      attr_reader :centra_orders, :rule_orders, :order_filter
 
-      def initialize(centra_csv, rule_csv, date_range, countries)
-        @date_range = date_range
-        @countries = countries
+      def initialize(centra_csv, rule_csv, order_filter)
+        @order_filter = order_filter
 
         @email_orders = Hash.new do |hash, key|
           hash[key] = { centra: [], rule: [] }
@@ -45,16 +41,12 @@ module Centra
         orders = []
         rows.each do |row|
           order = Order.new(row)
-          next unless @date_range.cover?(order.order_date)
+          next unless order_filter.date_range_covered?(order)
 
           @email_orders[order.email][:rule] << order
           orders << order
         end
         orders
-      end
-
-      def order_filter
-        @order_filter ||= OrderFilter.new(countries: @countries, date_range: @date_range)
       end
     end
   end
