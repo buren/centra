@@ -31,8 +31,6 @@ module Centra
 
       def build_centra_orders!(rows)
         orders = []
-        order_filter = OrderFilter.new(countries: @countries, date_range: @date_range)
-
         rows.each do |row|
           order = Order.new(row)
           next unless order_filter.allow?(order)
@@ -55,10 +53,8 @@ module Centra
         orders
       end
 
-      def excluded_country?(country)
-        return true unless country
-
-        @countries.any? && !@countries.include?(country)
+      def order_filter
+        @order_filter ||= OrderFilter.new(countries: @countries, date_range: @date_range)
       end
     end
   end
