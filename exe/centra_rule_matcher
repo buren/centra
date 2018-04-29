@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+
+# for dev purposes
+require "bundler/setup" if ENV['CENTRA_GEM_DEV']
+
+require "honey_format"
+
+require "centra"
+require "centra/rule/cli"
+
+Rule = Centra::Rule
+
+# CLI
+cli = Rule::CLI.new(name: 'centra_rule_matcher')
+options = cli.options
+
+rule_orders_path = options.fetch(:rule_orders_path) do
+  puts cli.help
+  fail ArgumentError, "--rule argument is required"
+end
+
+centra_orders_path = options.fetch(:centra_orders_path) do
+  puts cli.help
+  fail ArgumentError, "--centra argument is required"
+end
+
+if delay = options[:allowed_delay_in_minutes]
+  Centra::Order.allowed_delay_in_minutes = delay
+end
+
+# Build options
+countries = options.fetch(:filter_countries, [])
+matched_output = options[:matched_output]
+missing_output = options[:missing_output]
+date_range = Centra::DateRange.new(options[:start_date], options[:end_date])
+
+# Main
+rule_csv = HoneyFormat::CSV.new(File.read(rule_orders_path), header_converter: Rule::CSVHeaderConverter)
+centra_csv = HoneyFormat::CSV.new(File.read(centra_orders_path), header_converter: Centra::CSVHeaderConverter)
+
+data = Rule::OrdersData.new(centra_csv, rule_csv, date_range, countries)
+matcher = Rule::OrderMatcher.new(data)
+calculator = Rule::OrdersCalculator.new(matcher)
+
+Rule::OutputWriter.perform(
+  calculator,
+  csv_path: missing_output,
+  matched_csv_path: matched_output
+)
