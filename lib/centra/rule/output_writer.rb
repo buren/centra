@@ -61,8 +61,8 @@ module Centra
             csv << [
               centra_order.email,
               centra_order.delay_in_minutes(rule_order).round(2),
-              centra_order.timestamp,
-              rule_order.timestamp
+              centra_order.order_date,
+              rule_order.order_date
             ]
           end
         end
@@ -75,7 +75,7 @@ module Centra
           csv << %w[email order_timestamp]
 
           calc.missing.each do |order|
-            csv << [order.email, order.timestamp.to_s]
+            csv << [order.email, order.order_date.to_s]
           end
         end
       end

@@ -33,7 +33,7 @@ module Centra
         rows.each do |row|
           order = Order.new(row)
           next if excluded_country?(order.delivery_country)
-          next unless @date_range.cover?(order.timestamp)
+          next unless @date_range.cover?(order.order_date)
 
           @email_orders[order.email][:centra] << order
           orders << order
@@ -45,7 +45,7 @@ module Centra
         orders = []
         rows.each do |row|
           order = Order.new(row)
-          next unless @date_range.cover?(order.timestamp)
+          next unless @date_range.cover?(order.order_date)
 
           @email_orders[order.email][:rule] << order
           orders << order

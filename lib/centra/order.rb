@@ -1,19 +1,25 @@
 module Centra
   class Order
-    attr_reader :email, :timestamp, :payment_method
+    attr_reader :email
 
     def initialize(data)
       @email = data.delivery_email.strip.downcase
-      @timestamp = Time.parse(data.order_date)
       @data = data
+    end
+
+    def order_date
+      @order_date ||= Time.parse(@data.order_date)
+    end
+
+    def captured_date
+      @captured_date ||= Time.parse(@data.captured_date)
+    rescue ArgumentError => _e
     end
 
     def pcs
       Integer(@data.pcs)
     end
 
-    # FIXME: This will raise NoMethodError for if order is a rule order..
-    #       find a better way to handle this...
     def total_order_value_sek
       Float(@data.total_order_value_sek)
     end
@@ -23,7 +29,7 @@ module Centra
     end
 
     def delay_in_seconds(other)
-      (timestamp - other.timestamp).abs
+      (order_date - other.order_date).abs
     end
 
     def method_missing(method, *args, &block)
@@ -31,7 +37,7 @@ module Centra
     end
 
     def inspect
-      "#<Order:#{"0x00%x" % (object_id << 1)}(email: #{@email}, timestamp: #{@timestamp})"
+      "#<Order:#{"0x00%x" % (object_id << 1)}(email: #{@email}, order_date: #{@order_date})"
     end
   end
 end
