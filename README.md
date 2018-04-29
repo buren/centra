@@ -16,10 +16,10 @@ $ centra_stats --help
 Example
 
 ```
-centra_stats --centra-export=centra-order-export.csv      \
-             --anonymize                                  \
-             --order-frequency-output=order-frequency.csv \
-             --anonymized-output=anonymized_orders.csv    \
+$ centra_stats --centra-export=centra-order-export.csv      \
+               --anonymize                                  \
+               --order-frequency-output=order-frequency.csv \
+               --anonymized-output=anonymized_orders.csv    \
 ```
 
 __Rule order matcher__
@@ -31,14 +31,14 @@ $ centra_rule_matcher --help
 Example
 
 ```
-centra_rule_matcher --rule=rule_orders.csv       \
-                    --centra=centra_orders.csv   \
-                    --filter-countries=SE        \
-                    --max-allowed-diff=90        \
-                    --output-missing=missing.csv \
-                    --output-matched=matched.csv \
-                    --start-date=2017-01-01      \
-                    --end-date=2018-01-01
+$ centra_rule_matcher --rule=rule_orders.csv       \
+                      --centra=centra_orders.csv   \
+                      --filter-countries=SE        \
+                      --max-allowed-diff=90        \
+                      --output-missing=missing.csv \
+                      --output-matched=matched.csv \
+                      --start-date=2017-01-01      \
+                      --end-date=2018-01-01
 ```
 
 ## Installation
