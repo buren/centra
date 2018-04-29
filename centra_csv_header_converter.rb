@@ -1,7 +1,7 @@
 class CentraCSVHeaderConverter
   MAP = {
     'Order' => :order,
-    'Order Date' => :timestamp,
+    'Order Date' => :order_date,
     'Paytype' => :paytype,
     'Payment Method Code' => :payment_method_code,
     'Payment Reference' => :payment_reference,

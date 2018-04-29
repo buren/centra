@@ -10,12 +10,8 @@ anonymized_output = args.fetch(:anonymized_output)
 anonymize = args.fetch(:anonymize)
 
 # Main
-require 'csv'
-require 'time'
 require_relative 'centra_data'
 require_relative 'centra_calculations'
-require_relative 'csv_header'
-require_relative 'anon_value'
 
 print "Reading Centra order export file.."
 centra_orders_csv_file = File.read(centra_export_file)
@@ -37,9 +33,9 @@ if anonymized_output
 
   print "Writing anonymized order file #{anonymized_output}.."
   CSV.open(anonymized_output, 'w') do |anon_csv|
-    anon_csv << centra_data.columns
+    anon_csv << centra_data.header
     centra_data.rows.each do |row|
-      anon_csv << row
+      anon_csv << row.to_a
     end
   end
   puts 'done!'
