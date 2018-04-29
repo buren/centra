@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["burenstam@gmail.com"]
 
   spec.summary       = %q{Dealing with Centra stuff.}
-  spec.description   = %q{Dealing with Centra stuff, i.e reading export files and generating summaries.}
+  spec.description   = %q{Dealing with Centra stuff, i.e reading export files, generating summaries, matching orders with Rule orders.}
   spec.homepage      = "https://github.com/buren/centra"
   spec.license       = "MIT"
 
