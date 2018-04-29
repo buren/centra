@@ -1,7 +1,7 @@
-require 'securerandom'
-require 'honey_format'
+require "securerandom"
+require "honey_format"
 
-require_relative 'centra_csv_header_converter'
+require "centra/csv_header_converter"
 
 module Centra
   class OrderData
@@ -41,7 +41,7 @@ module Centra
     private
 
     def parse_csv(string)
-      HoneyFormat::CSV.new(string, header_converter: CentraCSVHeaderConverter)
+      HoneyFormat::CSV.new(string, header_converter: Centra::CSVHeaderConverter)
     end
 
     # Consistently anonymize a value

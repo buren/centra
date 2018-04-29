@@ -1,5 +1,5 @@
-require 'set'
-require 'time'
+require "set"
+require "time"
 
 module Centra
   class OrderStats
