@@ -40,7 +40,7 @@ module Centra
             matched_order = nil
             # Try to find a matching rule email
             data[:rule].each do |rule_order|
-              if centra_order == rule_order
+              if OrderCompare.new(centra_order) == rule_order
                 matched_order = { rule: rule_order, centra: centra_order }
                 break
               end

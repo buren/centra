@@ -25,7 +25,7 @@ centra_orders_path = options.fetch(:centra_orders_path) do
 end
 
 if delay = options[:allowed_delay_in_minutes]
-  Centra::Order.allowed_delay_in_minutes = delay
+  Rule::OrderCompare.allowed_delay_in_minutes = delay
 end
 
 # Build options

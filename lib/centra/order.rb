@@ -1,17 +1,5 @@
 module Centra
   class Order
-    @@allowed_delay_in_minutes = 90.0
-
-    def self.allowed_delay_in_minutes
-      @@allowed_delay_in_minutes
-    end
-
-    def self.allowed_delay_in_minutes=(mins)
-      @@allowed_delay_in_minutes = mins
-    end
-
-    include Comparable
-
     attr_reader :email, :timestamp, :payment_method
 
     def initialize(data)
@@ -20,15 +8,6 @@ module Centra
       @data = data
     end
 
-    def ==(other)
-      return false if email != other.email
-      return false if delay_in_seconds(other) > allowed_delay_in_seconds
-
-      true
-    end
-
-    # FIXME: This will raise NoMethodError for if order is a rule order..
-    #       find a better way to handle this...
     def pcs
       Integer(@data.pcs)
     end
@@ -45,10 +24,6 @@ module Centra
 
     def delay_in_seconds(other)
       (timestamp - other.timestamp).abs
-    end
-
-    def allowed_delay_in_seconds
-      60 * self.class.allowed_delay_in_minutes
     end
 
     def method_missing(method, *args, &block)

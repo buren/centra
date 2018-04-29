@@ -31,7 +31,7 @@ module Centra
         @stats_summary ||= <<~STATSOUTPUT
         Total emails          #{calc.email_orders.length}
         Total Centra orders   #{calc.centra_orders.length}
-        Allowed delay         #{Order.allowed_delay_in_minutes} minutes
+        Allowed delay         #{OrderCompare.allowed_delay_in_minutes} minutes
         Matched orders        #{calc.matched.length}
         Total pcs             #{calc.total_pcs}
         Total order value     #{calc.total_order_value_mkr_sek.round(3)} Mkr
