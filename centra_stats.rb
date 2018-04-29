@@ -2,7 +2,7 @@
 require 'optparse'
 require_relative 'cli'
 
-args = CLI.parse!
+args = Centra::CLI.parse!
 
 centra_export_file = args.fetch(:centra_export_file)
 order_freq_output = args.fetch(:order_freq_output)
@@ -10,14 +10,14 @@ anonymized_output = args.fetch(:anonymized_output)
 anonymize = args.fetch(:anonymize)
 
 # Main
-require_relative 'centra_data'
-require_relative 'centra_calculations'
+require_relative 'centra_order_data'
+require_relative 'centra_order_stats'
 
 print "Reading Centra order export file.."
 centra_orders_csv_file = File.read(centra_export_file)
 puts 'done!'
 print "Parsing CSV-file (this may take a while).."
-centra_data = CentraData.new(centra_orders_csv_file)
+centra_data = Centra::OrderData.new(centra_orders_csv_file)
 puts 'done!'
 
 if anonymize
@@ -42,7 +42,7 @@ if anonymized_output
 end
 
 print 'Running calculatations..'
-calculatation = CentraCalculations.new(centra_data)
+calculatation = Centra::OrderStats.new(centra_data)
 result = calculatation.calculate.result
 puts 'done!'
 
