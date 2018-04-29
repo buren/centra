@@ -17,11 +17,11 @@ module Centra
     end
 
     def pcs
-      Integer(@data.pcs)
+      @pcs ||= Integer(@data.pcs)
     end
 
     def total_order_value_sek
-      Float(@data.total_order_value_sek)
+      @total_order_value_sek ||= Float(@data.total_order_value_sek)
     end
 
     def delay_in_minutes(other)

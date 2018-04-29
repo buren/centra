@@ -26,20 +26,20 @@ module Centra
       first_order_date = Time.new(3000, 1, 1)
       last_order_date = Time.new(1, 1, 1)
 
-      @data.each do |row|
-        email = row.delivery_email
+      @data.each_order do |order|
+        email = order.delivery_email
         orders_per_email[email] += 1
 
-        currencies << row.currency
-        payment_method_codes << row.payment_method_code
-        billing_countries << row.billing_country
+        currencies << order.currency
+        payment_method_codes << order.payment_method_code
+        billing_countries << order.billing_country
 
-        order_date = Time.parse(row.order_date)
+        order_date = order.order_date
         first_order_date = order_date if first_order_date > order_date
         last_order_date = order_date if last_order_date < order_date
 
-        total_revenue += row.total_order_value_sek.to_f
-        total_pcs += row.pcs.to_i
+        total_revenue += order.total_order_value_sek
+        total_pcs += order.pcs
       end
 
       total_orders = @data.rows.length
