@@ -39,7 +39,7 @@ if anonymized_output = args[:anonymized_output]
   puts "done!"
 end
 
-print "Running calculatations.."
+print "Running calculations.."
 order_filter = Centra::OrderFilter.new(
   date_range: Centra::DateRange.new(args[:start_date], args[:end_date]),
   countries: args.fetch(:countries, [])

@@ -25,6 +25,33 @@ $ centra_orders --centra-export=centra-order-export.csv      \
                 --end-date=2018-01-01
 ```
 
+Example output
+
+```
+$ centra_orders --centra-export=sample-centra-order-export.csv
+
+Reading Centra order export file..done!
+Parsing CSV-file (this may take a while)..done!
+Anonymizing/scrubbing personal details..done!
+Running calculations..done!
+
+=== STATS ===
+First order date:        2013-03-25 09:57:28 +0100
+Last order date:         2015-05-13 14:47:41 +0200
+
+Total revenue:           7443.16
+Total orders:            9
+Total orders (in stats): 9
+Total pcs:               17
+Total unique emails:     9
+Total currencies:        3
+
+Avg. orders/email:       1.0
+Avg. value/email:        827.0177777777777
+Avg. pcs/order:          1.8888888888888888
+Avg. order value:        827.0177777777777
+```
+
 __Rule order matcher__
 
 ```
