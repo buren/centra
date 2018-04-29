@@ -9,7 +9,7 @@ require "csv"
 require "centra"
 require "centra/order_cli"
 
-args = Centra::OrderCLI.parse!(name: 'centra_stats')
+args = Centra::OrderCLI.parse!(name: 'centra_orders')
 
 print "Reading Centra order export file.."
 centra_orders_csv_file = File.read(args.fetch(:centra_export_file))

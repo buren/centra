@@ -10,16 +10,16 @@ Dealing with Centra stuff, i.e
 __Centra stats__
 
 ```
-$ centra_stats --help
+$ centra_orders --help
 ```
 
 Example
 
 ```
-$ centra_stats --centra-export=centra-order-export.csv      \
-               --anonymize                                  \
-               --order-frequency-output=order-frequency.csv \
-               --anonymized-output=anonymized_orders.csv    \
+$ centra_orders --centra-export=centra-order-export.csv      \
+                --anonymize                                  \
+                --order-frequency-output=order-frequency.csv \
+                --anonymized-output=anonymized_orders.csv    \
 ```
 
 __Rule order matcher__
