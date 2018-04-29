@@ -13,6 +13,8 @@ module Centra
     end
 
     def date_range_covered?(order)
+      return true unless @date_range
+
       @date_range.cover?(order.order_date)
     end
 

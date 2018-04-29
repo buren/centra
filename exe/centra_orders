@@ -18,14 +18,14 @@ print "Parsing CSV-file (this may take a while).."
 centra_data = Centra::OrderData.new(centra_orders_csv_file)
 puts "done!"
 
-if args.fetch(:anonymize)
+if args[:anonymize]
   print "Anonymizing/scrubbing personal details.."
   centra_data.anonymize!
   puts "done!"
 end
 
-if anonymized_output = args.fetch(:anonymized_output)
-  unless anonymize
+if anonymized_output = args[:anonymized_output]
+  unless args[:anonymize]
     fail("--anonymize option must be true in order to write anonymized order file.")
   end
 
@@ -40,11 +40,15 @@ if anonymized_output = args.fetch(:anonymized_output)
 end
 
 print "Running calculatations.."
-calculatation = Centra::OrderStats.new(centra_data)
+order_filter = Centra::OrderFilter.new(
+  date_range: Centra::DateRange.new(args[:start_date], args[:end_date]),
+  countries: args.fetch(:countries, [])
+)
+calculatation = Centra::OrderStats.new(centra_data, order_filter)
 result = calculatation.calculate.result
 puts "done!"
 
-if order_freq_output = args.fetch(:order_freq_output)
+if order_freq_output = args[:order_freq_output]
   print "Writing order frequency CSV-file #{order_freq_output}.."
   CSV.open(order_freq_output, "w") do |output_csv|
     output_csv << %w[email order_count]
@@ -56,18 +60,19 @@ end
 
 puts
 puts "=== STATS ==="
-puts "First order date:     #{result[:first_order_date]}"
-puts "Last order date:      #{result[:last_order_date]}"
+puts "First order date:        #{result[:first_order_date]}"
+puts "Last order date:         #{result[:last_order_date]}"
 puts
-puts "Total revenue:        #{result[:total_revenue]}"
-puts "Total orders:         #{result[:total_orders]}"
-puts "Total pcs:            #{result[:total_pcs]}"
-puts "Total unique emails:  #{result[:total_unique_emails]}"
-puts "Total currencies:     #{result[:total_currencies]}"
+puts "Total revenue:           #{result[:total_revenue]}"
+puts "Total orders:            #{result[:total_orders]}"
+puts "Total orders (in stats): #{result[:total_orders_in_stats]}"
+puts "Total pcs:               #{result[:total_pcs]}"
+puts "Total unique emails:     #{result[:total_unique_emails]}"
+puts "Total currencies:        #{result[:total_currencies]}"
 puts
-puts "Avg. orders/email:    #{result[:avg_order_per_email]}"
-puts "Avg. value/email:     #{result[:avg_value_per_email]}"
-puts "Avg. pcs/order:       #{result[:avg_pcs_per_order]}"
-puts "Avg. order value:     #{result[:avg_order_value]}"
+puts "Avg. orders/email:       #{result[:avg_order_per_email]}"
+puts "Avg. value/email:        #{result[:avg_value_per_email]}"
+puts "Avg. pcs/order:          #{result[:avg_pcs_per_order]}"
+puts "Avg. order value:        #{result[:avg_order_value]}"
 puts "============="
 puts

@@ -20,6 +20,9 @@ $ centra_orders --centra-export=centra-order-export.csv      \
                 --anonymize                                  \
                 --order-frequency-output=order-frequency.csv \
                 --anonymized-output=anonymized_orders.csv    \
+                --countries=SE,NO                            \
+                --start-date=2017-01-01                      \
+                --end-date=2018-01-01
 ```
 
 __Rule order matcher__
@@ -33,10 +36,10 @@ Example
 ```
 $ centra_rule_matcher --rule=rule_orders.csv       \
                       --centra=centra_orders.csv   \
-                      --filter-countries=SE        \
                       --max-allowed-diff=90        \
                       --output-missing=missing.csv \
                       --output-matched=matched.csv \
+                      --countries=SE,NO            \
                       --start-date=2017-01-01      \
                       --end-date=2018-01-01
 ```

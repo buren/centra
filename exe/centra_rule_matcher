@@ -29,7 +29,7 @@ if delay = options[:allowed_delay_in_minutes]
 end
 
 # Build options
-countries = options.fetch(:filter_countries, [])
+countries = options.fetch(:countries, [])
 matched_output = options[:matched_output]
 missing_output = options[:missing_output]
 date_range = Centra::DateRange.new(options[:start_date], options[:end_date])

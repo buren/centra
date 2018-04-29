@@ -1,6 +1,8 @@
 require "time"
 require "optparse"
 
+require "centra/cli_utils"
+
 module Centra
   module Rule
     class CLI
@@ -33,10 +35,6 @@ module Centra
             options[:centra_orders_path] = value
           end
 
-          parser.on('--filter-countries=[SE,NO]', Array, 'Only look at orders from certain countries (i.e SE,NO)') do |values|
-            options[:filter_countries] = values.map(&:upcase)
-          end
-
           parser.on('--max-allowed-diff=[90]', Integer, 'Max number of minutes allowed between order timestamps') do |value|
             options[:allowed_delay_in_minutes] = value
           end
@@ -49,13 +47,7 @@ module Centra
             options[:matched_output] = value
           end
 
-          parser.on('--start-date=[2018-01-01]', 'Start date (YYYY-MM-DD)') do |value|
-            options[:start_date] = Time.parse(value)
-          end
-
-          parser.on('--end-date=[2018-02-01]', 'End date (YYYY-MM-DD)') do |value|
-            options[:end_date] = Time.parse(value)
-          end
+          CLIUtils.parse_order_filter_args!(parser,  options)
 
           # No argument, shows at tail. This will print an options summary.
           parser.on_tail('-h', '--help', 'Show this message') do

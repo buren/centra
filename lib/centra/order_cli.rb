@@ -1,36 +1,42 @@
 require "optparse"
 
+require "centra/cli_utils"
+
 module Centra
   class OrderCLI
     def self.parse!(name:, argv: ARGV)
-      centra_export_file = nil
-      order_freq_output = nil
-      anonymized_output = nil
-      anonymize = true
+      options = {
+        centra_export_file: nil,
+        order_freq_output: nil,
+        anonymized_output: nil,
+        anonymize: true
+      }
 
       OptionParser.new do |parser|
         parser.banner = "Usage: #{name} [options]"
         parser.default_argv = argv
 
         parser.on("--centra-export=centra_orders.csv", String, "Path to Centra order export file (in CSV format).") do |value|
-          centra_export_file = value.strip
+          options[:centra_export_file] = value.strip
         end
 
         parser.on("--order-frequency-output=unique_emails.csv", String, "Path to output file.") do |value|
-          order_freq_output = value.strip
+          options[:order_freq_output] = value.strip
           # Ensure file ending
-          order_freq_output = "#{order_freq_output}.csv" unless value.end_with?(".csv")
+          options[:order_freq_output] = "#{order_freq_output}.csv" unless value.end_with?(".csv")
         end
 
         parser.on("--anonymized-output=anonymized_orders.csv", String, "Path to output file.") do |value|
-          anonymized_output = value.strip
+          options[:anonymized_output] = value.strip
           # Ensure file ending
-          anonymized_output = "#{anonymized_output}.csv" unless value.end_with?(".csv")
+          options[:anonymized_output] = "#{anonymized_output}.csv" unless value.end_with?(".csv")
         end
 
         parser.on("--[no-]anonymize", "Anonymize/scrub personal details.") do |value|
-          anonymize = value
+          options[:anonymize] = value
         end
+
+        CLIUtils.parse_order_filter_args!(parser,  options)
 
         parser.on("-h", "--help", "How to use") do
           puts parser
@@ -49,6 +55,7 @@ module Centra
         end
       end.parse!
 
+      centra_export_file = options[:centra_export_file]
       if !centra_export_file || centra_export_file.empty?
         puts "You must provide a Centra export file path."
         puts "USAGE:"
@@ -56,12 +63,7 @@ module Centra
         exit 1
       end
 
-      {
-        centra_export_file: centra_export_file,
-        order_freq_output: order_freq_output,
-        anonymized_output: anonymized_output,
-        anonymize: anonymize
-      }
+      options
     end
   end
 end

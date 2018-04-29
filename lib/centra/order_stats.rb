@@ -7,10 +7,11 @@ module Centra
       new(centra_data).calculate
     end
 
-    attr_reader :result
+    attr_reader :result, :order_filter
 
-    def initialize(centra_data)
+    def initialize(centra_data, order_filter = OrderFilter.new)
       @data = centra_data
+      @order_filter = order_filter
       @result = nil
     end
 
@@ -25,8 +26,12 @@ module Centra
       total_pcs = 0
       first_order_date = Time.new(3000, 1, 1)
       last_order_date = Time.new(1, 1, 1)
+      total_orders_in_stats = 0
 
       @data.each_order do |order|
+        next unless order_filter.allow?(order)
+        total_orders_in_stats += 1
+
         email = order.delivery_email
         orders_per_email[email] += 1
 
@@ -58,6 +63,7 @@ module Centra
         total_revenue: total_revenue,
         total_pcs: total_pcs,
         total_orders: total_orders,
+        total_orders_in_stats: total_orders_in_stats,
         total_unique_emails: total_unique_emails,
         total_currencies: total_currencies,
 
