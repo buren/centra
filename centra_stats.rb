@@ -31,7 +31,7 @@ if anonymized_output
     fail('--anonymize option must be true in order to write anonymized order file.')
   end
 
-  print "Writing anonymized order file #{anonymized_output}.."
+  print "Writing anonymized order CSV-file #{anonymized_output}.."
   CSV.open(anonymized_output, 'w') do |anon_csv|
     anon_csv << centra_data.header
     centra_data.rows.each do |row|
@@ -47,7 +47,7 @@ result = calculatation.calculate.result
 puts 'done!'
 
 if order_freq_output
-  print "Writing output file #{order_freq_output}.."
+  print "Writing order frequency CSV-file #{order_freq_output}.."
   CSV.open(order_freq_output, 'w') do |output_csv|
     output_csv << %w[email order_count]
     sorted_orders_per_email_asc = result[:orders_per_email].to_a.sort_by { |d| d.last }

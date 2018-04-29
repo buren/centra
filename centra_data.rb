@@ -16,15 +16,6 @@ class CentraData
     @csv.rows
   end
 
-  def column_index(name)
-    header.find_index(name)
-  end
-  alias_method :col_index, :column_index
-
-  def columns
-    header.columns
-  end
-
   def anonymize!
     cache = AnonValue.new
 
