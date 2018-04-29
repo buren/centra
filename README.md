@@ -39,7 +39,7 @@ Running calculations..done!
 First order date:        2013-03-25 09:57:28 +0100
 Last order date:         2015-05-13 14:47:41 +0200
 
-Total revenue:           7443.16
+Total revenue (SEK):     7443.16
 Total orders:            9
 Total orders (in stats): 9
 Total pcs:               17
