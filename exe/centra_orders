@@ -69,6 +69,8 @@ puts "Total orders (in stats): #{result[:total_orders_in_stats]}"
 puts "Total pcs:               #{result[:total_pcs]}"
 puts "Total unique emails:     #{result[:total_unique_emails]}"
 puts "Total currencies:        #{result[:total_currencies]}"
+puts "Total payment types:     #{result[:payment_method_codes].length}"
+puts "Total countries:         #{result[:billing_countries].length}"
 puts
 puts "Avg. orders/email:       #{result[:avg_order_per_email]}"
 puts "Avg. value/email:        #{result[:avg_value_per_email]}"
