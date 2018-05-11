@@ -28,7 +28,7 @@ module Centra
       last_order_date = Time.new(1, 1, 1)
       total_orders_in_stats = 0
 
-      @data.each_order do |order|
+      @data.each do |order|
         next unless order_filter.allow?(order)
         total_orders_in_stats += 1
 

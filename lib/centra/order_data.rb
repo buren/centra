@@ -2,14 +2,18 @@ require "securerandom"
 require "honey_format"
 
 require "centra/csv_header_converter"
+require "centra/csv_row_builder"
 
 module Centra
   class OrderData
     include Enumerable
 
-    def initialize(file)
-      @csv = parse_csv(file)
-      @rows = nil
+    def initialize(csv_string, anonymize: true)
+      @csv = HoneyFormat::CSV.new(
+        csv_string,
+        header_converter: CSVHeaderConverter,
+        row_builder: CSVRowBuilder.new(anonymize: anonymize)
+      )
     end
 
     def header
@@ -24,35 +28,8 @@ module Centra
       rows.each(&block)
     end
 
-    def each_order(&block)
-      rows.each { |row| yield(Order.new(row)) }
-    end
-
-    def anonymize!
-      cache = AnonValue.new
-
-      rows.each do |row|
-        email = row.delivery_email
-        # make sure the same email gets the same anonymized email
-        row.delivery_email = cache.value_for(email) { "#{SecureRandom.uuid}@example.com" }
-      end
-    end
-
     def inspect
       "#<CentraData:#{"0x00%x" % (object_id << 1)}(header: #{header})"
-    end
-
-    private
-
-    def parse_csv(string)
-      HoneyFormat::CSV.new(string, header_converter: Centra::CSVHeaderConverter)
-    end
-
-    # Consistently anonymize a value
-    class AnonValue
-      def value_for(value)
-        (@data ||= {}).fetch(value) { @data[value] = yield }
-      end
     end
   end
 end

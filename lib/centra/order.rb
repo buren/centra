@@ -3,8 +3,11 @@ module Centra
     attr_reader :email
 
     def initialize(data)
-      @email = data.delivery_email.strip.downcase
       @data = data
+    end
+
+    def email
+      @email ||= @data.delivery_email.strip.downcase
     end
 
     def order_date
@@ -36,8 +39,19 @@ module Centra
       @data.public_send(method, *args, &block)
     end
 
+    def respond_to_missing?(meth, include_private = false)
+      return true if respond_to?(meth)
+      @data.respond_to?(meth)
+    end
+
     def inspect
       "#<Order:#{"0x00%x" % (object_id << 1)}(email: #{@email}, order_date: #{@order_date})"
+    end
+
+    private
+
+    def value_to_f!(value)
+      Float(value)
     end
   end
 end
