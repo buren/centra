@@ -14,15 +14,9 @@ args = Centra::OrderCLI.parse!(name: 'centra_orders')
 print "Reading Centra order export file.."
 centra_orders_csv_file = File.read(args.fetch(:centra_export_file))
 puts "done!"
-print "Parsing CSV-file (this may take a while).."
-centra_data = Centra::OrderData.new(centra_orders_csv_file)
+print "Parsing#{" and anonymizing " if args[:anonymize]} CSV-file (this may take a while).."
+centra_data = Centra::OrderData.new(centra_orders_csv_file, anonymize: args[:anonymize])
 puts "done!"
-
-if args[:anonymize]
-  print "Anonymizing/scrubbing personal details.."
-  centra_data.anonymize!
-  puts "done!"
-end
 
 if anonymized_output = args[:anonymized_output]
   unless args[:anonymize]
