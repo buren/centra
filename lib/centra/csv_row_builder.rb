@@ -11,11 +11,6 @@ module Centra
 
     def call(row)
       anonymize!(row) if @anonymize
-      # TODO: Transform columns - until PostgreSQL accepts the CSV-import
-      #   i.e
-      #     - some date fields can be "0000:00:00 00:00"
-      #     - integer can sometimes be formatted as floats "1.0"
-      #     - numeric values can be missing / represented as empty strings
       Order.new(row)
     end
 
