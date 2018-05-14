@@ -51,6 +51,9 @@ module Centra
       total_unique_emails = orders_per_email.keys.length
       total_currencies = currencies.length
 
+      avg_order_value = total_revenue / total_orders.to_f
+      avg_orders_per_email = total_orders / total_unique_emails.to_f
+
       @result = {
         orders_per_email: orders_per_email,
         currencies: currencies,
@@ -67,10 +70,13 @@ module Centra
         total_unique_emails: total_unique_emails,
         total_currencies: total_currencies,
 
-        avg_order_value: total_revenue / total_orders.to_f,
+        avg_order_value: avg_order_value,
         avg_value_per_email: total_revenue / total_unique_emails.to_f,
-        avg_order_per_email: total_orders / total_unique_emails.to_f,
+        avg_orders_per_email: avg_orders_per_email,
         avg_pcs_per_order: total_pcs / total_orders.to_f,
+
+        purchase_frequency: avg_orders_per_email,
+        customer_value: avg_order_value * avg_orders_per_email
       }
       self
     end

@@ -66,9 +66,12 @@ puts "Total currencies:        #{result[:total_currencies]}"
 puts "Total payment types:     #{result[:payment_method_codes].length}"
 puts "Total countries:         #{result[:billing_countries].length}"
 puts
-puts "Avg. orders/email:       #{result[:avg_order_per_email]}"
+puts "Avg. orders/email:       #{result[:avg_orders_per_email]}"
 puts "Avg. value/email:        #{result[:avg_value_per_email]}"
 puts "Avg. pcs/order:          #{result[:avg_pcs_per_order]}"
 puts "Avg. order value:        #{result[:avg_order_value]}"
+puts
+puts "Purchase frequency:      #{result[:purchase_frequency]}"
+puts "Customer value:          #{result[:customer_value]}"
 puts "============="
 puts
