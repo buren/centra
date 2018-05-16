@@ -32,6 +32,58 @@ module Centra
       @total_order_value_sek ||= safe_to_f(@data.total_order_value_sek)
     end
 
+    def vat_deduct
+      safe_to_f(@data.vat_deduct)
+    end
+
+    def captured
+      safe_to_f(@data.captured)
+    end
+
+    def product_order_value_ex_vat
+      safe_to_f(@data.product_order_value_ex_vat)
+    end
+
+    def shipping_value_ex_vat
+      safe_to_f(@data.shipping_value_ex_vat)
+    end
+
+    def voucher_value_ex_vat
+      safe_to_f(@data.voucher_value_ex_vat)
+    end
+
+    def total_order_value_ex_vat
+      safe_to_f(@data.total_order_value_ex_vat)
+    end
+
+    def vat
+      safe_to_f(@data.vat)
+    end
+
+    def total_order_value_inc_vat
+      safe_to_f(@data.total_order_value_inc_vat)
+    end
+
+    def refunded
+      safe_to_f(@data.refunded)
+    end
+
+    def currency_rate
+      safe_to_f(@data.currency_rate)
+    end
+
+    def vat_sek
+      safe_to_f(@data.vat_sek)
+    end
+
+    def shipping_value_ex_vat_sek
+      safe_to_f(@data.shipping_value_ex_vat_sek)
+    end
+
+    def voucher_value_ex_vat_sek
+      safe_to_f(@data.voucher_value_ex_vat_sek)
+    end
+
     def delay_in_minutes(other)
       delay_in_seconds(other) / 60.0
     end
@@ -54,22 +106,35 @@ module Centra
       "#<Order:#{"0x00%x" % (object_id << 1)}(email: #{@email}, order_date: #{@order_date})"
     end
 
+    def to_csv
+      @data.members.map do |column_name|
+        column = public_send(column_name)
+        if column.respond_to?(:to_csv)
+          column.to_csv
+        else
+          column.to_s
+        end
+      end.join(',') + "\n"
+    end
+
     private
 
     def safe_to_f(value)
-      return unless value
+      return 0.0 unless value
       Float(value)
     rescue ArgumentError
+      0.0
     end
 
     def safe_to_i(value)
-      return unless value
+      return 0 unless value
       # integer can sometimes be formatted as floats "1.0" in the Centra export
       float_value = safe_to_f(value)
-      return unless float_value
+      return 0 unless float_value
 
       value.to_i
     rescue ArgumentError
+      0
     end
 
     def safe_to_datetime(value)

@@ -18,25 +18,27 @@ module Centra
       # remove potentially sensitive IDs
       row.order = anon_value_for(row.order)
       row.payment_reference = anon_value_for(row.payment_reference)
+      row.delivery_email = anon_email_for(row.delivery_email)
 
-      # TODO: Check if the below values are present in the CSV
-      # (depending on the type of export they might not..)
-      # and only anonymize the present values
+      %i[
+        billing_name
+        billing_company
+        billing_address
+        billing_coaddress
+        billing_zipcode
+        delivery_name
+        delivery_company
+        delivery_address
+        delivery_coaddress
+        delivery_zipcode
+      ].each do |field|
+        # These field values might not be included in the CSV-export
+        # so we need to check if they're present first
+        next unless row.respond_to?(field)
 
-      # anonymize delivery fields
-      # row.billing_name = anon_value_for(row.billing_name)
-      # row.billing_company = anon_value_for(row.billing_company)
-      # row.billing_address = anon_value_for(row.billing_address)
-      # row.billing_coaddress = anon_value_for(row.billing_coaddress)
-      # row.billing_zipcode = anon_value_for(row.billing_zipcode)
-      # # anonymize delivery fields
-      # row.delivery_email = anon_email_for(row.delivery_email)
-      # row.delivery_name = anon_value_for(row.delivery_name)
-      # row.delivery_company = anon_value_for(row.delivery_company)
-      # row.delivery_address = anon_value_for(row.delivery_address)
-      #
-      # row.delivery_coaddress = anon_value_for(row.delivery_coaddress)
-      # row.delivery_zipcode = anon_value_for(row.delivery_zipcode)
+        anon_value = anon_value_for(row.public_send(field))
+        row.public_send("#{field}=", anon_value)
+      end
     end
 
     private
