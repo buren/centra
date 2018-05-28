@@ -1,7 +1,7 @@
 module Centra
   class CSVHeaderConverter
     MAP = {
-      "Order" => :order,
+      "Order" => :order_id,
       "Order Date" => :order_date,
       "Paytype" => :paytype,
       "Payment Method Code" => :payment_method_code,
