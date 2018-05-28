@@ -141,8 +141,13 @@ module Centra
 
     def safe_to_datetime(value)
       # some date fields can be formatted as "0000:00:00 00:00"
+      # TODO: Make sure to use the same time zone as Centra
       Time.parse(value)
     rescue ArgumentError
+      # TODO: Find another way of handling invalid/blank timestamps,
+      #       currently we need this since PostgreSQL doesn't accept CSV imports
+      #       with blank date fields.
+      Time.new(1979, 1, 1) # psql \copy command chokes on empty timestamps
     end
   end
 end
