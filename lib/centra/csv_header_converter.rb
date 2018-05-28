@@ -42,7 +42,7 @@ module Centra
       "Voucher Value (ex VAT) (SEK)" => :voucher_value_ex_vat_sek,
       "Affiliate" => :affiliate,
       "EC Vat" => :ec_vat,
-      "VAT#" => :"vat#",
+      "VAT#" => :vat_pound,
       "Collection" => :collection,
     }.freeze
 
