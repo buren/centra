@@ -1,9 +1,11 @@
 module Centra
   class Order
-    attr_reader :email
-
     def initialize(data)
       @data = data
+    end
+
+    def id
+      @data.order_id
     end
 
     # TODO: Transform columns - until PostgreSQL accepts the CSV-import
@@ -142,6 +144,8 @@ module Centra
     def safe_to_datetime(value)
       # some date fields can be formatted as "0000:00:00 00:00"
       # TODO: Make sure to use the same time zone as Centra
+      # NOTE: Seems like Centra can have different settings for this depending on the
+      #       server, so we should probably allow the user to configure this
       Time.parse(value)
     rescue ArgumentError
       # TODO: Find another way of handling invalid/blank timestamps,
