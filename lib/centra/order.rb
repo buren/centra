@@ -107,14 +107,16 @@ module Centra
     end
 
     def to_csv
-      @data.members.map do |column_name|
+      row = @data.members.map do |column_name|
         column = public_send(column_name)
         if column.respond_to?(:to_csv)
           column.to_csv
         else
           column.to_s
         end
-      end.join(',') + "\n"
+      end
+
+      CSV.generate_line(row)
     end
 
     private
