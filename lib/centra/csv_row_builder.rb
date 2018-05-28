@@ -16,7 +16,6 @@ module Centra
 
     def anonymize!(row)
       # remove potentially sensitive IDs
-      row.order = anon_value_for(row.order)
       row.payment_reference = anon_value_for(row.payment_reference)
       row.delivery_email = anon_email_for(row.delivery_email)
 
