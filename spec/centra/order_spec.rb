@@ -4,16 +4,25 @@ require 'spec_helper'
 
 RSpec.describe Centra::Order do
   describe '#captured_date' do
-    it 'returns nil if data has 0000-00-00 00:00:00 as value' do
+    it 'returns unix epoch if data has 0000-00-00 00:00:00 as value' do
       data = Struct.new(:captured_date).new('0000-00-00 00:00:00')
       order = Centra::Order.new(data)
+      unix_epoch = Time.new(1979, 1, 1)
 
-      expect(order.captured_date).to be_nil
+      expect(order.captured_date).to eq(unix_epoch)
+    end
+  end
+
+  describe "#pcs" do
+    it 'returns correct value when value is nil' do
+      data = Struct.new(:pcs).new(nil)
+      order = Centra::Order.new(data)
+
+      expect(order.pcs).to eq(0)
     end
   end
 
   %i[
-    pcs
     product_order_value_ex_vat
     shipping_value_ex_vat
     voucher_value_ex_vat
@@ -33,7 +42,7 @@ RSpec.describe Centra::Order do
         data = Struct.new(field).new(nil)
         order = Centra::Order.new(data)
 
-        expect(order.public_send(field)).to be_nil
+        expect(order.public_send(field)).to eq(0.0)
       end
     end
   end
