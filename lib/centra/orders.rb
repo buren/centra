@@ -9,6 +9,11 @@ module Centra
       @filter = filter
     end
 
+    def columns
+      return [] unless @orders.any?
+      @orders.first.members
+    end
+
     def all
       @orders.rows
     end
