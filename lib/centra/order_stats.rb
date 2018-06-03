@@ -1,6 +1,8 @@
 require "set"
 require "time"
 
+require 'centra/orders'
+
 module Centra
   class OrderStats
     def self.calculate(centra_data)
@@ -9,9 +11,8 @@ module Centra
 
     attr_reader :result, :order_filter
 
-    def initialize(centra_data, order_filter = OrderFilter.new)
-      @data = centra_data
-      @order_filter = order_filter
+    def initialize(orders)
+      @orders = orders
       @result = nil
     end
 
@@ -28,8 +29,7 @@ module Centra
       last_order_date = Time.new(1, 1, 1)
       total_orders_in_stats = 0
 
-      @data.each do |order|
-        next unless order_filter.allow?(order)
+      @orders.each do |order|
         total_orders_in_stats += 1
 
         email = order.delivery_email
@@ -47,7 +47,7 @@ module Centra
         total_pcs += order.pcs
       end
 
-      total_orders = @data.rows.length
+      total_orders = @orders.all.length
       total_unique_emails = orders_per_email.keys.length
       total_currencies = currencies.length
 

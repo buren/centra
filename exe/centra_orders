@@ -9,6 +9,10 @@ require "csv"
 require "centra"
 require "centra/cli/order_cli"
 
+Centra.configure do |config|
+  config.logger = Logger.new(STDOUT)
+end
+
 args = Centra::OrderCLI.parse!(name: 'centra_orders')
 
 print "Reading Centra order export file.."
@@ -38,7 +42,8 @@ order_filter = Centra::OrderFilter.new(
   date_range: Centra::DateRange.new(args[:start_date], args[:end_date]),
   countries: args.fetch(:countries, [])
 )
-calculatation = Centra::OrderStats.new(centra_csv, order_filter)
+orders = Centra::Orders.new(centra_csv, order_filter)
+calculatation = Centra::OrderStats.new(orders)
 result = calculatation.calculate.result
 puts "done!"
 
