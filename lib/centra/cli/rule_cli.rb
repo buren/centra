@@ -1,7 +1,7 @@
 require "time"
 require "optparse"
 
-require "centra/cli_utils"
+require "centra/cli/cli_utils"
 
 module Centra
   module Rule

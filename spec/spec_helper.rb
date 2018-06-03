@@ -1,7 +1,7 @@
 require "bundler/setup"
 require "centra"
 
-require 'support/test_logger'
+require "support/test_logger"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

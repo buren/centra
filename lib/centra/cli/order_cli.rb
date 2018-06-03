@@ -1,6 +1,6 @@
 require "optparse"
 
-require "centra/cli_utils"
+require "centra/cli/cli_utils"
 
 module Centra
   class OrderCLI
