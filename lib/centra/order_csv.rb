@@ -5,7 +5,7 @@ require "centra/csv_header_converter"
 require "centra/csv_row_builder"
 
 module Centra
-  class OrderData
+  class OrderCSV
     include Enumerable
 
     def initialize(csv_string, anonymize: true)

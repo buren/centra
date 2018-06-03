@@ -5,7 +5,7 @@ require "centra/loggable"
 require "centra/csv_header_converter"
 require "centra/date_range"
 require "centra/order"
-require "centra/order_data"
+require "centra/order_csv"
 require "centra/order_filter"
 require "centra/order_stats"
 

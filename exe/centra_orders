@@ -15,7 +15,7 @@ print "Reading Centra order export file.."
 centra_orders_csv_file = File.read(args.fetch(:centra_export_file))
 puts "done!"
 print "Parsing#{" and anonymizing " if args[:anonymize]} CSV-file (this may take a while).."
-centra_data = Centra::OrderData.new(centra_orders_csv_file, anonymize: args[:anonymize])
+centra_csv = Centra::OrderCSV.new(centra_orders_csv_file, anonymize: args[:anonymize])
 puts "done!"
 
 if anonymized_output = args[:anonymized_output]
@@ -25,8 +25,8 @@ if anonymized_output = args[:anonymized_output]
 
   print "Writing anonymized order CSV-file #{anonymized_output}.."
   CSV.open(anonymized_output, "w") do |anon_csv|
-    anon_csv << centra_data.header
-    centra_data.each do |row|
+    anon_csv << centra_csv.header
+    centra_csv.each do |row|
       anon_csv << row.to_a
     end
   end
@@ -38,7 +38,7 @@ order_filter = Centra::OrderFilter.new(
   date_range: Centra::DateRange.new(args[:start_date], args[:end_date]),
   countries: args.fetch(:countries, [])
 )
-calculatation = Centra::OrderStats.new(centra_data, order_filter)
+calculatation = Centra::OrderStats.new(centra_csv, order_filter)
 result = calculatation.calculate.result
 puts "done!"
 
