@@ -8,6 +8,10 @@ require "honey_format"
 require "centra"
 require "centra/cli/rule_cli"
 
+Centra.configure do |config|
+  config.logger = Logger.new(STDOUT)
+end
+
 Rule = Centra::Rule
 
 # CLI
