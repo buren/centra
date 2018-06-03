@@ -12,7 +12,7 @@ Centra.configure do |config|
   config.logger = Logger.new(STDOUT)
 end
 
-Rule = Centra::Rule
+include Centra
 
 # CLI
 cli = Rule::CLI.new(name: 'centra_rule_matcher')
@@ -36,13 +36,13 @@ end
 countries = options.fetch(:countries, [])
 matched_output = options[:matched_output]
 missing_output = options[:missing_output]
-date_range = Centra::DateRange.new(options[:start_date], options[:end_date])
+date_range = DateRange.new(options[:start_date], options[:end_date])
 
 # Main
 rule_csv = HoneyFormat::CSV.new(File.read(rule_orders_path), header_converter: Rule::CSVHeaderConverter)
-centra_csv = HoneyFormat::CSV.new(File.read(centra_orders_path), header_converter: Centra::CSVHeaderConverter)
+centra_csv = HoneyFormat::CSV.new(File.read(centra_orders_path), header_converter: CSVHeaderConverter)
 
-order_filter = Centra::OrderFilter.new(countries: countries, date_range: date_range)
+order_filter = OrderFilter.new(countries: countries, date_range: date_range)
 data = Rule::OrderData.new(centra_csv, rule_csv, order_filter)
 matcher = Rule::OrderMatcher.new(data)
 calculator = Rule::OrderCalculator.new(matcher)
