@@ -14,7 +14,7 @@ include Centra
 args = OrderCLI.parse!(name: 'centra_orders')
 
 Centra.configure do |config|
-  config.logger = args.fetch(:logger, Logger.new(STDOUT))
+  config.logger = args.fetch(:logger, NullLogger.new)
 end
 
 print "Reading Centra order export file.."
