@@ -37,6 +37,7 @@ module Centra
         end
 
         CLIUtils.parse_order_filter_args!(parser,  options)
+        CLIUtils.parse_logger_args!(parser,  options)
 
         parser.on("-h", "--help", "How to use") do
           puts parser

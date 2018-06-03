@@ -9,13 +9,13 @@ require "csv"
 require "centra"
 require "centra/cli/order_cli"
 
-Centra.configure do |config|
-  config.logger = Logger.new(STDOUT)
-end
-
 include Centra
 
 args = OrderCLI.parse!(name: 'centra_orders')
+
+Centra.configure do |config|
+  config.logger = args.fetch(:logger, Logger.new(STDOUT))
+end
 
 print "Reading Centra order export file.."
 centra_orders_csv_file = File.read(args.fetch(:centra_export_file))

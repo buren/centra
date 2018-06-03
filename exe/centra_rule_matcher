@@ -8,15 +8,15 @@ require "honey_format"
 require "centra"
 require "centra/cli/rule_cli"
 
-Centra.configure do |config|
-  config.logger = Logger.new(STDOUT)
-end
-
 include Centra
 
 # CLI
 cli = Rule::CLI.new(name: 'centra_rule_matcher')
 options = cli.options
+
+Centra.configure do |config|
+  config.logger = options.fetch(:logger, Logger.new(STDOUT))
+end
 
 rule_orders_path = options.fetch(:rule_orders_path) do
   puts cli.help
