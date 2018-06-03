@@ -1,9 +1,9 @@
 require "centra/version"
-require "centra/null_logger"
-require "centra/loggable"
+require "centra/helpers/null_logger"
+require "centra/helpers/loggable"
 
 require "centra/csv_header_converter"
-require "centra/date_range"
+require "centra/helpers/date_range"
 require "centra/order"
 require "centra/order_csv"
 require "centra/order_filter"
