@@ -9,14 +9,13 @@ require "centra/cli/order_import_cli"
 require 'centra/db/connection'
 require "centra/db/import/order_import"
 
-Centra.configure do |c|
-  c.logger = Logger.new(STDOUT)
-end
-
 include Centra
 
 args = OrderImportCLI.parse!(name: 'centra_order_import')
-connection = Centra::DB::Connection.new(args[:db])
+
+Centra.configure do |config|
+  config.logger = args.fetch(:logger, NullLogger.new)
+end
 
 print "Reading Centra order export file.."
 file = File.read(args[:centra_export_file])
@@ -31,5 +30,6 @@ puts 'done!'
 orders = Centra::Orders.new(centra_csv, order_filter)
 
 print 'Importing orders to database..'
+connection = Centra::DB::Connection.new(args[:db])
 Centra::DB::OrderImport.call(connection, orders)
 puts 'done!'
