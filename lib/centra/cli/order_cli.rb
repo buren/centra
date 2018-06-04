@@ -60,7 +60,7 @@ module Centra
       if !centra_export_file || centra_export_file.empty?
         puts "You must provide a Centra export file path."
         puts "USAGE:"
-        puts "    $ ruby #{name} --help"
+        puts "    $ #{name} --help"
         exit 1
       end
 
