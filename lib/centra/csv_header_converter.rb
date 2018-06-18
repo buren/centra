@@ -46,10 +46,10 @@ module Centra
       "Collection" => :collection,
     }.freeze
 
-    def self.call(header)
+    def self.call(header, index)
       MAP.fetch(header) do
         warn "[CENTRA] Unmapped key: #{header}"
-        HoneyFormat::ConvertHeaderValue.call(header)
+        HoneyFormat::ConvertHeaderValue.call(header, index)
       end
     end
   end
