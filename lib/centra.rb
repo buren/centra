@@ -1,4 +1,5 @@
 require "centra/version"
+require "centra/configuration"
 require "centra/helpers/null_logger"
 require "centra/helpers/loggable"
 
@@ -16,16 +17,12 @@ module Centra
     @configuration ||= Configuration.new
   end
 
-  def self.configure
-    yield(configuration) if block_given?
+  def self.config
     configuration
   end
 
-  class Configuration
-    attr_accessor :logger
-
-    def initialize
-      @logger = NullLogger.new
-    end
+  def self.configure
+    yield(configuration) if block_given?
+    configuration
   end
 end

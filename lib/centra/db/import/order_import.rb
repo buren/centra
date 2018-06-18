@@ -3,9 +3,9 @@
 module Centra
   module DB
     class OrderImport
-      def self.call(connection, orders)
+      def self.call(connection, orders, table_name: Centra.config.database.table_names[:orders])
         sql = <<~SQL
-          COPY orders(#{orders.columns.join(',')})
+          COPY #{table_name}(#{orders.columns.join(',')})
           FROM STDIN CSV DELIMITER ','
         SQL
 
