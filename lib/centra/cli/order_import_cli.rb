@@ -8,6 +8,7 @@ module Centra
       options = {
         centra_export_file: nil,
         anonymize: true,
+        reset_tables: false,
       }
 
       db_options = {
@@ -53,6 +54,10 @@ module Centra
 
         parser.on("--[no-]anonymize", "Anonymize/scrub personal details.") do |value|
           options[:anonymize] = value
+        end
+
+        parser.on("--[no-]reset-tables", "Drop and re-create database tables.") do |value|
+          options[:reset_tables] = value
         end
 
         CLIUtils.parse_order_filter_args!(parser,  options)
