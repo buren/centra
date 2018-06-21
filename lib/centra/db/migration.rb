@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'centra/db/connection'
+
 module Centra
   module DB
     class Migration
@@ -7,7 +9,7 @@ module Centra
 
       # Initializes a database migration
       # @param [Centra::DB::Connection] the database connection
-      def initialize(connection)
+      def initialize(connection = Connection.new)
         @connection = connection
       end
 

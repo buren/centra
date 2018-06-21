@@ -43,5 +43,5 @@ if args[:reset_tables]
 end
 
 print "Importing orders to database, this may take a while.."
-Centra::DB::OrderImport.call(connection, orders)
+Centra::DB::OrderImport.call(orders, connection)
 puts "done!"
