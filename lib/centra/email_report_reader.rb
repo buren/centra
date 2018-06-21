@@ -14,6 +14,7 @@ module Centra
       @urls ||= URI.extract(email_body, %w(http https))
     end
 
+    # @return [URI] the report URI
     def report_uri
       # The first URL in the email is the report file
       first_url = absolute_urls.first
