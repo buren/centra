@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-require 'centra/helpers/anon_store'
-
 module Centra
   class CSVRowBuilder
     def initialize(anonymize: true)
-      @store = AnonStore.new
+      @store = Centra.config.anon_store.build
       @anonymize = anonymize
     end
 

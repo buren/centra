@@ -3,6 +3,10 @@
 module Centra
   # Consistently anonymize a value
   class AnonStore
+    def self.build
+      new
+    end
+
     def initialize(length: 12)
       @data = {}
       @length = (length / 2).ceil
