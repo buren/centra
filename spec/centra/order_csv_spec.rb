@@ -30,7 +30,7 @@ RSpec.describe Centra::OrderCSV do
       expect(order.email).to eq('1908483cb653@example.com')
     end
 
-    it 'can skip anonymization' do
+    it 'can anonymize' do
       csv_string = File.read('spec/data/10_orders.csv')
       data = Centra::OrderCSV.new(csv_string, anonymize: true)
 
