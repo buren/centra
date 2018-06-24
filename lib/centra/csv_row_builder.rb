@@ -33,8 +33,7 @@ module Centra
         # so we need to check if they're present first
         next unless row.respond_to?(field)
 
-        anon_value = anon_value_for(row.public_send(field))
-        row.public_send("#{field}=", anon_value)
+        row[field] = anon_value_for(row[field])
       end
     end
 
