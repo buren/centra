@@ -15,7 +15,7 @@ module Centra
     def anonymize!(row)
       # remove potentially sensitive IDs
       row.payment_reference = anon_value_for(row.payment_reference)
-      row.delivery_email = anon_email_for(row.delivery_email)
+      row.delivery_email = anon_value_for(row.delivery_email)
 
       %i[
         billing_name
@@ -38,10 +38,6 @@ module Centra
     end
 
     private
-
-    def anon_email_for(email)
-      anon_value_for(email) { "#{SecureRandom.hex(6)}@example.com" }
-    end
 
     def anon_value_for(value, &block)
       @store.value_for(value, &block)
