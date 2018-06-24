@@ -9,6 +9,7 @@ module Centra
         centra_export_file: nil,
         anonymize: true,
         reset_tables: false,
+        table_names: {},
       }
 
       db_options = {
@@ -58,6 +59,10 @@ module Centra
 
         parser.on("--[no-]reset-tables", "Drop and re-create database tables.") do |value|
           options[:reset_tables] = value
+        end
+
+        parser.on('--table-names=[name=newname,name1=newname1]', Array, 'Customize default database table names.') do |value|
+          options[:table_names] = (value || []).map { |v| v.split('=') }.to_h
         end
 
         CLIUtils.parse_order_filter_args!(parser,  options)

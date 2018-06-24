@@ -16,6 +16,7 @@ args = OrderImportCLI.parse!(name: 'centra_order_import')
 
 Centra.configure do |config|
   config.logger = args.fetch(:logger, NullLogger.new)
+  config.database.table_names.merge!(args.fetch(:table_names, {}))
 end
 
 print "Reading Centra order export file.."
