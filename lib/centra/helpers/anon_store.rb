@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "securerandom"
+
 module Centra
   # Consistently anonymize a value
   class AnonStore

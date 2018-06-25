@@ -9,32 +9,16 @@ module Centra
 
     def call(row)
       anonymize!(row) if @anonymize
-      Order.new(row)
+      row_klass.new(row)
     end
 
+    # remove potentially sensitive data
     def anonymize!(row)
-      # remove potentially sensitive IDs
-      row.payment_reference = anon_value_for(row.payment_reference)
-      row.delivery_email = anon_value_for(row.delivery_email)
+      # NOTE: Should be implemented in subclass
+    end
 
-      %i[
-        billing_name
-        billing_company
-        billing_address
-        billing_coaddress
-        billing_zipcode
-        delivery_name
-        delivery_company
-        delivery_address
-        delivery_coaddress
-        delivery_zipcode
-      ].each do |field|
-        # These field values might not be included in the CSV-export
-        # so we need to check if they're present first
-        next unless row.respond_to?(field)
-
-        row[field] = anon_value_for(row[field])
-      end
+    def row_klass
+      raise(NotImplementedError, 'you must implement this in subclass')
     end
 
     private
