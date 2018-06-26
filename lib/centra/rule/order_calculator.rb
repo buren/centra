@@ -43,11 +43,15 @@ module Centra
       end
 
       def total_order_value_mkr_sek
-        @total_order_value_mkr_sek ||= centra_orders.map(&:total_order_value_sek).sum / 1_000_000
+        @total_order_value_mkr_sek ||= begin
+          centra_orders.map(&:total_order_value_sek).sum / 1_000_000
+        end
       end
 
       def missing_total_order_value_mkr_sek
-        @missing_total_order_value_mkr_sek ||= missing.map(&:total_order_value_sek).sum / 1_000_000
+        @missing_total_order_value_mkr_sek ||= begin
+          missing.map(&:total_order_value_sek).sum / 1_000_000
+        end
       end
 
       def average_delay

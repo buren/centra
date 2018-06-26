@@ -40,8 +40,14 @@ missing_output = options[:missing_output]
 date_range = DateRange.new(options[:start_date], options[:end_date])
 
 # Main
-rule_csv = HoneyFormat::CSV.new(File.read(rule_orders_path), header_converter: Rule::CSVHeaderConverter)
-centra_csv = HoneyFormat::CSV.new(File.read(centra_orders_path), header_converter: OrderCSV.header_converter)
+rule_csv = HoneyFormat::CSV.new(
+  File.read(rule_orders_path),
+  header_converter: Rule::CSVHeaderConverter
+)
+centra_csv = HoneyFormat::CSV.new(
+  File.read(centra_orders_path),
+  header_converter: OrderCSV.header_converter
+)
 
 order_filter = OrderFilter.new(countries: countries, date_range: date_range)
 data = Rule::OrderData.new(centra_csv, rule_csv, order_filter)

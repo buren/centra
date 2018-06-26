@@ -20,7 +20,12 @@ module Centra
       # @return [Hash]
       # @example Return example
       #   data.email_orders
-      #   # => { "jane@example.com" => { centra: [#<Object:0x007f>], rule: [#<Object:0x009d>] } }
+      #   # => {
+      #   #      "jane@example.com" => {
+      #   #        centra: [#<Object:0x007f>],
+      #   #        rule: [#<Object:0x009d>]
+      #   #      }
+      #   #   }
       attr_reader :email_orders
 
       private

@@ -1,5 +1,5 @@
 Rails:
-  Enabled: true
+  Enabled: false
 AllCops:
   TargetRubyVersion: 2.4
   Exclude:
@@ -118,6 +118,10 @@ Style/StringLiterals:
   SupportedStyles:
   - single_quotes
   - double_quotes
+Style/MixinUsage:
+  Enabled: true
+  Exclude:
+    - exe/*
 Style/StringLiteralsInInterpolation:
   Description: Checks if uses of quotes inside expressions in interpolated strings
     match the configured preference.
@@ -176,13 +180,17 @@ Metrics/PerceivedComplexity:
 Metrics/LineLength:
   Description: Maximum line length
   Enabled: true
-  Max: 90
+  Max: 95
   Exclude:
-  - bin/spring
-  - config/routes.rb
-  - spec/controllers/regression/**/*
-  - spec/models/regression/**/*
+  - lib/centra/cli/*
   - Gemfile
+  - centra.gemspec
+  - spec/**/*
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+  - lib/centra/cli/*
+  - spec/**/*
 Lint/AssignmentInCondition:
   Description: Don't use assignment in conditions.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#safe-assignment-in-condition

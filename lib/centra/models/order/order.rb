@@ -19,9 +19,5 @@ module Centra
     def delay_in_seconds(other)
       (order_date - other.order_date).abs
     end
-
-    def inspect
-      "#<Order:#{format('0x00%x', (object_id << 1))}(email: #{email}, order_date: #{order_date})"
-    end
   end
 end

@@ -36,7 +36,11 @@ module Centra
     anonymize_type_map(email: :md5)
 
     def initialize(csv_string, anonymize: true)
-      super(csv_string, row_builder: ->(row) { Product.new(row) })
+      super(
+        csv_string,
+        row_builder: ->(row) { Product.new(row) },
+        anonymize: anonymize,
+      )
     end
   end
 end

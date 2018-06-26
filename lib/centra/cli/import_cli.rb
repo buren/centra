@@ -40,7 +40,7 @@ module Centra
       end.parse!
 
       centra_export_file = options[:centra_export_file]
-      if centra_export_file.blank?
+      if centra_export_file.empty?
         puts "You must provide a Centra export file path."
         puts "USAGE:"
         puts "    $ #{name} --help"

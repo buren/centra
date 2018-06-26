@@ -3,14 +3,12 @@
 module Centra
   module Rule
     class OrderCompare
-      @@allowed_delay_in_minutes = 90.0
-
       def self.allowed_delay_in_minutes
-        @@allowed_delay_in_minutes
+        @allowed_delay_in_minutes ||= 90.0
       end
 
-      def self.allowed_delay_in_minutes=(mins)
-        @@allowed_delay_in_minutes = mins
+      def self.allowed_delay_in_minutes=(mins) # rubocop:disable Style/TrivialAccessors
+        @allowed_delay_in_minutes = mins
       end
 
       include Comparable

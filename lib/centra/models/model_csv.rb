@@ -66,7 +66,10 @@ module Centra
     end
 
     def inspect
-      "#<#{self.class.name}:#{format('0x00%x', (object_id << 1))}(header: #{@csv&.header&.join(', ')})"
+      header = @csv&.header&.to_a || []
+      id = format("0x00%<id>x", id: (object_id << 1))
+
+      "#<#{self.class.name}:#{id}(header: #{header.join(', ')})"
     end
   end
 end

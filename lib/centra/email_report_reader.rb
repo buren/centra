@@ -25,7 +25,7 @@ module Centra
       # Unfortunately Centra has a bug where only the path to the
       # report file is present and not a full absolute URL
       # therefore we need to parse it out ourselves
-      report_path_matcher = /\/[\S]+\/export\?file\=[\S]+.(csv|xls)/
+      report_path_matcher = %r{\/[\S]+\/export\?file\=[\S]+.(csv|xls)}
       url_path = email_body.match(report_path_matcher).to_s
 
       URI(url_path).tap do |uri|
