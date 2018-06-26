@@ -21,7 +21,11 @@ puts "done!"
 print "Parsing#{' and anonymizing ' if args[:anonymize]} CSV-file (this may take a while).."
 centra_csv = Centra::ProductCSV.new(file, anonymize: args[:anonymize])
 puts "done!"
-products = Centra::Products.new(centra_csv)
+product_filter = Centra::ProductFilter.new(
+  date_range: Centra::DateRange.new(args[:start_date], args[:end_date]),
+  countries: args.fetch(:countries, [])
+)
+products = Centra::Products.new(centra_csv, product_filter)
 
 print "Connecting to database.."
 connection = Centra::DB::Connection.new(args[:db])
