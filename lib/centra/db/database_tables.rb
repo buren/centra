@@ -1,8 +1,8 @@
 module Centra
   class DatabaseTables
     NAMES = {
-      orders: :orders,
-      products: :products,
+      orders: :centra_orders,
+      products: :centra_products,
     }.map { |k, v| [k.to_s, v.to_s] }.to_h.freeze
 
     def initialize

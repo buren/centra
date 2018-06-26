@@ -6,21 +6,21 @@ RSpec.describe Centra::DatabaseTables do
   describe "#merge!" do
     it "can merge with hash" do
       tables = described_class.new
-      tables.merge!('orders' => 'centra_orders')
-      expect(tables[:orders]).to eq('centra_orders')
-      expect(tables[:products]).to eq('products')
+      tables.merge!('orders' => 'my_orders')
+      expect(tables[:orders]).to eq('my_orders')
+      expect(tables[:products]).to eq('centra_products')
     end
   end
 
   describe "#[]" do
-    it "returns value for key as string" do
-      tables = described_class.new
-      expect(tables[:orders]).to eq('orders')
-    end
-
     it "returns value for key as symbol" do
       tables = described_class.new
-      expect(tables['orders']).to eq('orders')
+      expect(tables[:orders]).to eq('centra_orders')
+    end
+
+    it "returns value for key as string" do
+      tables = described_class.new
+      expect(tables['orders']).to eq('centra_orders')
     end
 
     it "raises KeyError for unknown key" do
@@ -32,8 +32,8 @@ RSpec.describe Centra::DatabaseTables do
   describe "#[]=" do
     it "sets value for key" do
       tables = described_class.new
-      tables[:orders] = 'centra_orders'
-      expect(tables[:orders]).to eq('centra_orders')
+      tables[:orders] = 'my_orders'
+      expect(tables[:orders]).to eq('my_orders')
     end
 
     it "raises KeyError for unknown key" do
