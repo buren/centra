@@ -7,7 +7,7 @@ module Centra
   module DB
     class OrderImport
       def self.call(orders, connection: Connection.new, table_name: Centra.config.database.table_names[:orders])
-        CSVImport.call(products, table_name, connection)
+        CSVImport.call(orders, table_name, connection)
       end
     end
   end

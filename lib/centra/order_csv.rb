@@ -49,6 +49,27 @@ module Centra
       "Collection" => :collection,
     }.freeze
 
+
+    TYPE_MAP = {
+      order_date: :datetime!,
+      captured_date: :datetime_or_unix_epoch,
+      pcs: :integer,
+      total_order_value_sek: :decimal,
+      vat_deduct: :decimal,
+      captured: :decimal,
+      product_order_value_ex_vat: :decimal,
+      shipping_value_ex_vat: :decimal,
+      voucher_value_ex_vat: :decimal,
+      total_order_value_ex_vat: :decimal,
+      vat: :decimal,
+      total_order_value_inc_vat: :decimal,
+      refunded: :decimal,
+      currency_rate: :decimal,
+      vat_sek: :decimal,
+      shipping_value_ex_vat_sek: :decimal,
+      voucher_value_ex_vat_sek: :decimal,
+    }.freeze
+
     def initialize(csv_string, anonymize: true)
       row_builder = CSVOrderRowBuilder.new(anonymize: anonymize)
       super(csv_string, row_builder: row_builder)

@@ -7,18 +7,27 @@ module Centra
       CSVHeaderConverter.new(self::COLUMN_MAP)
     end
 
+    def self.type_map
+      self::TYPE_MAP
+    end
+
     include Enumerable
 
     def initialize(csv_string, row_builder:)
       @csv = HoneyFormat::CSV.new(
         csv_string,
         header_converter: header_converter,
-        row_builder: row_builder
+        row_builder: row_builder,
+        type_map: type_map
       )
     end
 
     def header_converter
       self.class.header_converter
+    end
+
+    def type_map
+      self.class.type_map
     end
 
     def header

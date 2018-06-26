@@ -1,5 +1,4 @@
 require "centra/model_csv"
-require "centra/csv_product_row_builder"
 
 module Centra
   class ProductCSV < ModelCSV
@@ -24,9 +23,19 @@ module Centra
       "Base Currency" => :base_currency,
     }.freeze
 
+    TYPE_MAP = {
+      email: :md5,
+      newsletter: :boolean,
+      created_at: :datetime,
+      quantity: :integer,
+      total: :decimal,
+      total_vat: :decimal,
+      base_total: :decimal,
+      base_total_vat: :decimal,
+    }.freeze
+
     def initialize(csv_string, anonymize: true)
-      row_builder = CSVProductRowBuilder.new(anonymize: anonymize)
-      super(csv_string, row_builder: row_builder)
+      super(csv_string, row_builder: ->(row) { Product.new(row) })
     end
   end
 end

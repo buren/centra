@@ -27,6 +27,9 @@ centra_csv = Centra::OrderCSV.new(file, anonymize: args[:anonymize])
 puts 'done!'
 orders = Centra::Orders.new(centra_csv, order_filter)
 
+require 'byebug'
+byebug
+
 print "Connecting to database.."
 connection = Centra::DB::Connection.new(args[:db])
 puts "done!"
