@@ -1,3 +1,5 @@
+require "time"
+
 require "centra/version"
 require "centra/configuration"
 require "centra/helpers/null_logger"
@@ -22,6 +24,17 @@ require "centra/product_csv"
 require "centra/rule"
 
 module Centra
+  HoneyFormat.configure do |config|
+    # TODO: Find another way of handling invalid/blank timestamps,
+    #       currently we need this since PostgreSQL doesn't accept CSV imports
+    #       with blank date fields.
+    # NOTE: PostgreSQL COPY command chokes on empty timestamps
+    config.converter.register(
+      :datetime_or_unix_epoch,
+      ->(v) { config.converter[:datetime].call(v) || Time.new(1979, 1, 1) }
+    )
+  end
+
   def self.configuration
     @configuration ||= Configuration.new
   end
