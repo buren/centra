@@ -28,28 +28,32 @@ $ centra_orders --centra-export=centra-order-export.csv      \
 Example output
 
 ```
-$ centra_orders --centra-export=sample-centra-order-export.csv
+$ centra_orders --centra-export=sample-centra-order-export.csv --countries=SE
 
 Reading Centra order export file..done!
-Parsing CSV-file (this may take a while)..done!
-Anonymizing/scrubbing personal details..done!
+Parsing and anonymizing  CSV-file (this may take a while)..done!
 Running calculations..done!
 
 === STATS ===
-First order date:        2013-03-25 09:57:28 +0100
-Last order date:         2015-05-13 14:47:41 +0200
+First order date         2013-03-25 09:57:28 +0100
+Last order date          2015-06-03 19:23:31 +0200
 
-Total revenue (SEK):     7443.16
-Total orders:            9
-Total orders (in stats): 9
-Total pcs:               17
-Total unique emails:     9
-Total currencies:        3
+Total revenue (SEK)      853359.8
+Total orders             999
+Total orders (in stats)  735
+Total pcs                943
+Total unique emails      647
+Total currencies         1
+Total payment types      12
+Total countries          1
 
-Avg. orders/email:       1.0
-Avg. value/email:        827.0177777777777
-Avg. pcs/order:          1.8888888888888888
-Avg. order value:        827.0177777777777
+Avg. orders/email        1.544049459041731
+Avg. value/email         1318.948686244204
+Avg. pcs/order           0.943943943943944
+Avg. order value         854.2140140140141
+
+Purchase frequency       1.544049459041731
+Customer value           1318.948686244204
 ```
 
 __Rule order matcher__
@@ -69,6 +73,24 @@ $ centra_rule_matcher --rule=rule_orders.csv       \
                       --countries=SE,NO            \
                       --start-date=2017-01-01      \
                       --end-date=2018-01-01
+```
+
+__Import orders to PostgreSQL database__
+
+```
+$ centra_order_import --help
+```
+
+Example
+
+```
+$ centra_order_import --centra-export=sample-orders.csv \
+                      --dbname=dbname \
+                      --user=dbuser \
+                      --password=dbpassword \
+                      --host=127.0.0.1 \
+                      --anonymize \
+                      --logger=STDOUT
 ```
 
 ## Installation
