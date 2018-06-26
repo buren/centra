@@ -4,7 +4,7 @@ require "centra/csv_product_row_builder"
 module Centra
   class ProductCSV < ModelCSV
       COLUMN_MAP = {
-        "Order" => :order,
+        "Order" => :order_id,
         "Email" => :email,
         "Newsletter" => :newsletter,
         "Created" => :created_at,
