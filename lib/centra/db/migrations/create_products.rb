@@ -19,7 +19,7 @@ module Centra
           product_name VARCHAR(250),
           variant VARCHAR(250),
           folder VARCHAR(250),
-          size INT not null DEFAULT 0,
+          size VARCHAR(250),
           quantity INT not null DEFAULT 0,
           total DECIMAL not null DEFAULT 0.0,
           total_vat DECIMAL not null DEFAULT 0.0,
