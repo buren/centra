@@ -1,5 +1,4 @@
 require "honey_format"
-require "centra/csv_header_converter"
 
 module Centra
   class ModelCSV

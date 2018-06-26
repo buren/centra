@@ -2,15 +2,17 @@ require "time"
 
 require "centra/version"
 require "centra/configuration"
+require "centra/helpers/date_range"
 require "centra/helpers/null_logger"
 require "centra/helpers/loggable"
+
+require "centra/email_report_reader"
 
 # Stores
 require "centra/helpers/anon_store"
 require "centra/helpers/consistent_anon_store"
 
 require "centra/csv_header_converter"
-require "centra/helpers/date_range"
 require "centra/models"
 require "centra/rule"
 
