@@ -1,6 +1,6 @@
 require "optparse"
 
-require "centra/cli_utils"
+require "centra/cli/cli_utils"
 
 module Centra
   class OrderCLI
@@ -37,6 +37,7 @@ module Centra
         end
 
         CLIUtils.parse_order_filter_args!(parser,  options)
+        CLIUtils.parse_logger_args!(parser,  options)
 
         parser.on("-h", "--help", "How to use") do
           puts parser
@@ -59,7 +60,7 @@ module Centra
       if !centra_export_file || centra_export_file.empty?
         puts "You must provide a Centra export file path."
         puts "USAGE:"
-        puts "    $ ruby #{name} --help"
+        puts "    $ #{name} --help"
         exit 1
       end
 

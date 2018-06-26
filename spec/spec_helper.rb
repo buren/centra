@@ -1,5 +1,12 @@
+if ENV.fetch("COVERAGE", false)
+  require "simplecov"
+  SimpleCov.start
+end
+
 require "bundler/setup"
 require "centra"
+
+require "support/test_logger"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -10,5 +17,11 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.before(:suite) do
+    Centra.configure do |c|
+      c.logger = TestLogger.new
+    end
   end
 end

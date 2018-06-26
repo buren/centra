@@ -7,22 +7,22 @@ require "bundler/setup" if ENV['CENTRA_GEM_DEV']
 require "csv"
 
 require "centra"
-require "centra/order_cli"
+require "centra/cli/order_cli"
 
-args = Centra::OrderCLI.parse!(name: 'centra_orders')
+include Centra
+
+args = OrderCLI.parse!(name: 'centra_orders')
+
+Centra.configure do |config|
+  config.logger = args.fetch(:logger, NullLogger.new)
+end
 
 print "Reading Centra order export file.."
 centra_orders_csv_file = File.read(args.fetch(:centra_export_file))
 puts "done!"
-print "Parsing CSV-file (this may take a while).."
-centra_data = Centra::OrderData.new(centra_orders_csv_file)
+print "Parsing#{" and anonymizing " if args[:anonymize]} CSV-file (this may take a while).."
+centra_csv = OrderCSV.new(centra_orders_csv_file, anonymize: args[:anonymize])
 puts "done!"
-
-if args[:anonymize]
-  print "Anonymizing/scrubbing personal details.."
-  centra_data.anonymize!
-  puts "done!"
-end
 
 if anonymized_output = args[:anonymized_output]
   unless args[:anonymize]
@@ -31,8 +31,8 @@ if anonymized_output = args[:anonymized_output]
 
   print "Writing anonymized order CSV-file #{anonymized_output}.."
   CSV.open(anonymized_output, "w") do |anon_csv|
-    anon_csv << centra_data.header
-    centra_data.each do |row|
+    anon_csv << centra_csv.header
+    centra_csv.each do |row|
       anon_csv << row.to_a
     end
   end
@@ -40,11 +40,12 @@ if anonymized_output = args[:anonymized_output]
 end
 
 print "Running calculations.."
-order_filter = Centra::OrderFilter.new(
-  date_range: Centra::DateRange.new(args[:start_date], args[:end_date]),
+order_filter = OrderFilter.new(
+  date_range: DateRange.new(args[:start_date], args[:end_date]),
   countries: args.fetch(:countries, [])
 )
-calculatation = Centra::OrderStats.new(centra_data, order_filter)
+orders = Orders.new(centra_csv, order_filter)
+calculatation = OrderStats.new(orders)
 result = calculatation.calculate.result
 puts "done!"
 
@@ -60,21 +61,23 @@ end
 
 puts
 puts "=== STATS ==="
-puts "First order date:        #{result[:first_order_date]}"
-puts "Last order date:         #{result[:last_order_date]}"
+puts "First order date         #{result[:first_order_date]}"
+puts "Last order date          #{result[:last_order_date]}"
 puts
-puts "Total revenue (SEK):     #{result[:total_revenue]}"
-puts "Total orders:            #{result[:total_orders]}"
-puts "Total orders (in stats): #{result[:total_orders_in_stats]}"
-puts "Total pcs:               #{result[:total_pcs]}"
-puts "Total unique emails:     #{result[:total_unique_emails]}"
-puts "Total currencies:        #{result[:total_currencies]}"
-puts "Total payment types:     #{result[:payment_method_codes].length}"
-puts "Total countries:         #{result[:billing_countries].length}"
+puts "Total revenue (SEK)      #{result[:total_revenue]}"
+puts "Total orders             #{result[:total_orders]}"
+puts "Total orders (in stats)  #{result[:total_orders_in_stats]}"
+puts "Total pcs                #{result[:total_pcs]}"
+puts "Total unique emails      #{result[:total_unique_emails]}"
+puts "Total currencies         #{result[:total_currencies]}"
+puts "Total payment types      #{result[:payment_method_codes].length}"
+puts "Total countries          #{result[:billing_countries].length}"
 puts
-puts "Avg. orders/email:       #{result[:avg_order_per_email]}"
-puts "Avg. value/email:        #{result[:avg_value_per_email]}"
-puts "Avg. pcs/order:          #{result[:avg_pcs_per_order]}"
-puts "Avg. order value:        #{result[:avg_order_value]}"
-puts "============="
+puts "Avg. orders/email        #{result[:avg_orders_per_email]}"
+puts "Avg. value/email         #{result[:avg_value_per_email]}"
+puts "Avg. pcs/order           #{result[:avg_pcs_per_order]}"
+puts "Avg. order value         #{result[:avg_order_value]}"
+puts
+puts "Purchase frequency       #{result[:purchase_frequency]}"
+puts "Customer value           #{result[:customer_value]}"
 puts

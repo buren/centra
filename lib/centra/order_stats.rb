@@ -1,6 +1,8 @@
 require "set"
 require "time"
 
+require 'centra/orders'
+
 module Centra
   class OrderStats
     def self.calculate(centra_data)
@@ -9,9 +11,8 @@ module Centra
 
     attr_reader :result, :order_filter
 
-    def initialize(centra_data, order_filter = OrderFilter.new)
-      @data = centra_data
-      @order_filter = order_filter
+    def initialize(orders)
+      @orders = orders
       @result = nil
     end
 
@@ -28,8 +29,7 @@ module Centra
       last_order_date = Time.new(1, 1, 1)
       total_orders_in_stats = 0
 
-      @data.each_order do |order|
-        next unless order_filter.allow?(order)
+      @orders.each do |order|
         total_orders_in_stats += 1
 
         email = order.delivery_email
@@ -47,9 +47,12 @@ module Centra
         total_pcs += order.pcs
       end
 
-      total_orders = @data.rows.length
+      total_orders = @orders.all.length
       total_unique_emails = orders_per_email.keys.length
       total_currencies = currencies.length
+
+      avg_order_value = total_revenue / total_orders.to_f
+      avg_orders_per_email = total_orders / total_unique_emails.to_f
 
       @result = {
         orders_per_email: orders_per_email,
@@ -67,10 +70,13 @@ module Centra
         total_unique_emails: total_unique_emails,
         total_currencies: total_currencies,
 
-        avg_order_value: total_revenue / total_orders.to_f,
+        avg_order_value: avg_order_value,
         avg_value_per_email: total_revenue / total_unique_emails.to_f,
-        avg_order_per_email: total_orders / total_unique_emails.to_f,
+        avg_orders_per_email: avg_orders_per_email,
         avg_pcs_per_order: total_pcs / total_orders.to_f,
+
+        purchase_frequency: avg_orders_per_email,
+        customer_value: avg_order_value * avg_orders_per_email
       }
       self
     end

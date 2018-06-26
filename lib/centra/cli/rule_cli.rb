@@ -1,7 +1,7 @@
 require "time"
 require "optparse"
 
-require "centra/cli_utils"
+require "centra/cli/cli_utils"
 
 module Centra
   module Rule
@@ -48,6 +48,7 @@ module Centra
           end
 
           CLIUtils.parse_order_filter_args!(parser,  options)
+          CLIUtils.parse_logger_args!(parser,  options)
 
           # No argument, shows at tail. This will print an options summary.
           parser.on_tail('-h', '--help', 'Show this message') do

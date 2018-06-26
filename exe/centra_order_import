@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+# for dev purposes
+require "bundler/setup" if ENV['CENTRA_GEM_DEV']
+
+require "centra"
+require "centra/cli/order_import_cli"
+
+require 'centra/db/connection'
+require "centra/db/import/order_import"
+require "centra/db/migrations"
+
+include Centra
+
+args = OrderImportCLI.parse!(name: 'centra_order_import')
+
+Centra.configure do |config|
+  config.logger = args.fetch(:logger, NullLogger.new)
+  config.database.table_names.merge!(args.fetch(:table_names, {}))
+end
+
+print "Reading Centra order export file.."
+file = File.read(args[:centra_export_file])
+puts 'done!'
+order_filter = OrderFilter.new(
+  date_range: DateRange.new(args[:start_date], args[:end_date]),
+  countries: args.fetch(:countries, [])
+)
+print "Parsing#{" and anonymizing " if args[:anonymize]} CSV-file (this may take a while).."
+centra_csv = Centra::OrderCSV.new(file, anonymize: args[:anonymize])
+puts 'done!'
+orders = Centra::Orders.new(centra_csv, order_filter)
+
+print "Connecting to database.."
+connection = Centra::DB::Connection.new(args[:db])
+puts "done!"
+
+if args[:reset_tables]
+  print "Dropping and creating orders table.."
+  migration = Centra::Migrations::CreateOrders.new(connection)
+  migration.down
+  migration.up
+  puts "done!"
+end
+
+print "Importing orders to database, this may take a while.."
+Centra::DB::OrderImport.call(orders, connection)
+puts "done!"
