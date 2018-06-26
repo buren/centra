@@ -6,9 +6,7 @@ require "bundler/setup" if ENV['CENTRA_GEM_DEV']
 require "centra"
 require "centra/cli/import_cli"
 
-require "centra/db/connection"
-require "centra/db/import/order_import"
-require "centra/db/migrations"
+require "centra/db"
 
 args = Centra::ImportCLI.parse!(name: 'centra_order_import')
 
