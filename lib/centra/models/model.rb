@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Centra
   class Model
     def initialize(data)
@@ -28,7 +30,7 @@ module Centra
       @data.public_send(method, *args, &block)
     end
 
-    def respond_to_missing?(meth, include_private = false)
+    def respond_to_missing?(meth, _include_private = false)
       @data.respond_to?(meth)
     end
   end

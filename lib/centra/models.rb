@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "centra/models/model"
 require "centra/models/model_csv"
 

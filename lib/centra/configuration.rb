@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "centra/db/database_tables"
 
 module Centra

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Centra
   module Rule
     class CSVHeaderConverter
       MAP = {
-        'email' => :delivery_email,
-        'created_at' => :order_date,
+        "email" => :delivery_email,
+        "created_at" => :order_date
       }.freeze
 
       def self.call(header)

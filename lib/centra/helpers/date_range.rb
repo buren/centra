@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Centra
   DateRange = Struct.new(:start_date, :end_date)
 

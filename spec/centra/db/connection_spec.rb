@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 require "centra/db/connection"
 
@@ -9,31 +11,31 @@ RSpec.describe Centra::DB::Connection do
 
     it "can initialize with config & options" do
       Centra.configure do |config|
-        config.database.dbname = 'configname'
+        config.database.dbname = "configname"
       end
 
       connection = described_class.new(
-        host: 'host',
-        user: 'user',
-        password: 'pass'
+        host: "host",
+        user: "user",
+        password: "pass"
       )
-      expect(connection.options[:dbname]).to eq('configname')
+      expect(connection.options[:dbname]).to eq("configname")
     end
 
     it "can initialize with valid options" do
       connection = described_class.new(
-        dbname: 'name',
-        host: 'host',
-        user: 'user',
-        password: 'pass'
+        dbname: "name",
+        host: "host",
+        user: "user",
+        password: "pass"
       )
 
       expected = {
-        dbname: 'name',
-        host: 'host',
+        dbname: "name",
+        host: "host",
         port: 5432,
-        user: 'user',
-        password: 'pass',
+        user: "user",
+        password: "pass",
         connect_timeout: 15
       }
       expect(connection.options).to eq(expected)

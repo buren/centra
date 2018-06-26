@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "centra/db/database_tables"
 require "centra/db/connection"
 require "centra/db/migrations"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "optparse"
 
 module Centra
@@ -7,7 +9,7 @@ module Centra
         centra_export_file: nil,
         anonymize: true,
         reset_tables: false,
-        table_names: {},
+        table_names: {}
       }
 
       db_options = {
@@ -16,7 +18,7 @@ module Centra
         port: 5432,
         user: nil,
         password: nil,
-        connect_timeout: 15,
+        connect_timeout: 15
       }
 
       OptionParser.new do |parser|
@@ -38,7 +40,7 @@ module Centra
       end.parse!
 
       centra_export_file = options[:centra_export_file]
-      if !centra_export_file || centra_export_file.empty?
+      if centra_export_file.blank?
         puts "You must provide a Centra export file path."
         puts "USAGE:"
         puts "    $ #{name} --help"

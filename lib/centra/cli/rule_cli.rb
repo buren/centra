@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "time"
 require "optparse"
 
@@ -25,31 +27,31 @@ module Centra
 
           parser.default_argv = argv
 
-          parser.on('--rule=rule_export.csv', String, 'Path to Rule export file') do |value|
+          parser.on("--rule=rule_export.csv", String, "Path to Rule export file") do |value|
             options[:rule_orders_path] = value
           end
 
-          parser.on('--centra=centra_export.csv', String, 'Path to Centra orders export file') do |value|
+          parser.on("--centra=centra_export.csv", String, "Path to Centra orders export file") do |value|
             options[:centra_orders_path] = value
           end
 
-          parser.on('--max-allowed-diff=[90]', Integer, 'Max number of minutes allowed between order timestamps') do |value|
+          parser.on("--max-allowed-diff=[90]", Integer, "Max number of minutes allowed between order timestamps") do |value|
             options[:allowed_delay_in_minutes] = value
           end
 
-          parser.on('--output-missing=[missing.csv]', String, 'Path to missing CSV output path') do |value|
+          parser.on("--output-missing=[missing.csv]", String, "Path to missing CSV output path") do |value|
             options[:missing_output] = value
           end
 
-          parser.on('--output-matched=[matched.csv]', String, 'Path to matched CSV output path') do |value|
+          parser.on("--output-matched=[matched.csv]", String, "Path to matched CSV output path") do |value|
             options[:matched_output] = value
           end
 
-          CLIUtils.parse_order_filter_args!(parser,  options)
+          CLIUtils.parse_order_filter_args!(parser, options)
           CLIUtils.parse_logger_args!(parser,  options)
 
           # No argument, shows at tail. This will print an options summary.
-          parser.on_tail('-h', '--help', 'Show this message') do
+          parser.on_tail("-h", "--help", "Show this message") do
             puts parser
             exit
           end

@@ -22,7 +22,7 @@ module Centra
       map { |order| order }
     end
 
-    def each(&block)
+    def each
       all.each do |order|
         next unless @filter.allow?(order)
         yield(order)

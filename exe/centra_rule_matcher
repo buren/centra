@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # for dev purposes
-require "bundler/setup" if ENV['CENTRA_GEM_DEV']
+require "bundler/setup" if ENV["CENTRA_GEM_DEV"]
 
 require "honey_format"
 
@@ -11,7 +12,7 @@ require "centra/cli"
 include Centra
 
 # CLI
-cli = Rule::CLI.new(name: 'centra_rule_matcher')
+cli = Rule::CLI.new(name: "centra_rule_matcher")
 options = cli.options
 
 Centra.configure do |config|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "csv"
 
 module Centra
@@ -6,7 +8,7 @@ module Centra
       attr_reader :calc
 
       def self.perform(calculator, csv_path: nil, matched_csv_path: nil)
-        self.new(
+        new(
           calculator,
           csv_path: csv_path,
           matched_csv_path: matched_csv_path
@@ -28,18 +30,18 @@ module Centra
 
       def stats_summary
         @stats_summary ||= <<~STATSOUTPUT
-        Total emails          #{calc.email_orders.length}
-        Total Centra orders   #{calc.centra_orders.length}
-        Allowed delay         #{OrderCompare.allowed_delay_in_minutes} minutes
-        Matched orders        #{calc.matched.length}
-        Total pcs             #{calc.total_pcs}
-        Total order value     #{calc.total_order_value_mkr_sek.round(3)} Mkr
-        ---
-        Total order value     #{calc.missing_total_order_value_mkr_sek.round(3)} Mkr
-        Average orders/email  #{calc.average_orders_per_email.round(3)}
-        Average delay         #{calc.average_delay.round(3)} minutes
-        Missing order emails  #{calc.missing.length}
-        Miss percentage       #{calc.miss_percentage.round(3)}%
+          Total emails          #{calc.email_orders.length}
+          Total Centra orders   #{calc.centra_orders.length}
+          Allowed delay         #{OrderCompare.allowed_delay_in_minutes} minutes
+          Matched orders        #{calc.matched.length}
+          Total pcs             #{calc.total_pcs}
+          Total order value     #{calc.total_order_value_mkr_sek.round(3)} Mkr
+          ---
+          Total order value     #{calc.missing_total_order_value_mkr_sek.round(3)} Mkr
+          Average orders/email  #{calc.average_orders_per_email.round(3)}
+          Average delay         #{calc.average_delay.round(3)} minutes
+          Missing order emails  #{calc.missing.length}
+          Miss percentage       #{calc.miss_percentage.round(3)}%
         STATSOUTPUT
       end
 
@@ -50,7 +52,7 @@ module Centra
       def matched_orders_output!
         return unless @matched_csv_path
 
-        CSV.open(@matched_csv_path, 'w') do |csv|
+        CSV.open(@matched_csv_path, "w") do |csv|
           csv << %w[email diff_in_mins ordered_at order_email_at]
 
           calc.matched.each do |data|
@@ -70,7 +72,7 @@ module Centra
       def missing_emails_output!
         return unless @csv_path
 
-        CSV.open(@csv_path, 'w') do |csv|
+        CSV.open(@csv_path, "w") do |csv|
           csv << %w[email order_timestamp]
 
           calc.missing.each do |order|

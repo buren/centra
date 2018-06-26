@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "uri"
 
 module Centra
@@ -28,7 +30,7 @@ module Centra
 
       URI(url_path).tap do |uri|
         next unless @hostname
-        uri.scheme = 'https'
+        uri.scheme = "https"
         uri.hostname = @hostname
       end
     end

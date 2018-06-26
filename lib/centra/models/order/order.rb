@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Centra
   class Order < Model
     def id
@@ -19,7 +21,7 @@ module Centra
     end
 
     def inspect
-      "#<Order:#{"0x00%x" % (object_id << 1)}(email: #{email}, order_date: #{order_date})"
+      "#<Order:#{format('0x00%x', (object_id << 1))}(email: #{email}, order_date: #{order_date})"
     end
   end
 end

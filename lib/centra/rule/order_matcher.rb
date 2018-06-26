@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Centra
   module Rule
     # Match Centra orders with Rule sent emails

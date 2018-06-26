@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Centra
   class ProductCSV < ModelCSV
     column_map(
@@ -18,7 +20,7 @@ module Centra
       "Currency" => :currency,
       "Base Total" => :base_total,
       "Base Total VAT" => :base_total_vat,
-      "Base Currency" => :base_currency,
+      "Base Currency" => :base_currency
     )
 
     type_map(
@@ -28,7 +30,7 @@ module Centra
       total: :decimal,
       total_vat: :decimal,
       base_total: :decimal,
-      base_total_vat: :decimal,
+      base_total_vat: :decimal
     )
 
     anonymize_type_map(email: :md5)

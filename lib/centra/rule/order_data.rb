@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Centra
   module Rule
     # Build order data
@@ -19,9 +21,7 @@ module Centra
       # @example Return example
       #   data.email_orders
       #   # => { "jane@example.com" => { centra: [#<Object:0x007f>], rule: [#<Object:0x009d>] } }
-      def email_orders
-        @email_orders
-      end
+      attr_reader :email_orders
 
       private
 

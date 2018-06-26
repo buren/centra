@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Centra
   class OrderCSV < ModelCSV
     column_map(
@@ -43,7 +45,7 @@ module Centra
       "Affiliate" => :affiliate,
       "EC Vat" => :ec_vat,
       "VAT#" => :vat_pound,
-      "Collection" => :collection,
+      "Collection" => :collection
     )
 
     type_map(
@@ -63,20 +65,20 @@ module Centra
       currency_rate: :decimal_or_zero,
       vat_sek: :decimal_or_zero,
       shipping_value_ex_vat_sek: :decimal_or_zero,
-      voucher_value_ex_vat_sek: :decimal_or_zero,
+      voucher_value_ex_vat_sek: :decimal_or_zero
     )
 
     anonymize_type_map(
       delivery_email: :md5,
-      payment_reference: :nil,
+      payment_reference: :nil
     )
 
     class RowBuilder
       # All these fields might not be in the CSV-export
-       MAYBE_FIELDS = %i[
-         billing_name billing_company billing_address billing_coaddress billing_zipcode
-         delivery_name delivery_company delivery_address delivery_coaddress delivery_zipcode
-       ].freeze
+      MAYBE_FIELDS = %i[
+        billing_name billing_company billing_address billing_coaddress billing_zipcode
+        delivery_name delivery_company delivery_address delivery_coaddress delivery_zipcode
+      ].freeze
 
       def initialize(anonymize = true)
         @anonymize = anonymize
@@ -98,7 +100,7 @@ module Centra
 
         # Since all rows will have the same columns we remove
         # all fields that have not been found
-        @fields = @fields - missing
+        @fields -= missing
       end
     end
 

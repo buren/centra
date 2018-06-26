@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "optparse"
 
 module Centra
@@ -34,15 +36,15 @@ module Centra
           options[:anonymize] = value
         end
 
-        CLIUtils.parse_order_filter_args!(parser,  options)
-        CLIUtils.parse_logger_args!(parser,  options)
+        CLIUtils.parse_order_filter_args!(parser, options)
+        CLIUtils.parse_logger_args!(parser, options)
 
         parser.on("-h", "--help", "How to use") do
           puts parser
           exit
         end
 
-        parser.on_tail('--version', 'Show version') do
+        parser.on_tail("--version", "Show version") do
           puts "Centra version #{Centra::VERSION}"
           exit
         end
@@ -55,7 +57,7 @@ module Centra
       end.parse!
 
       centra_export_file = options[:centra_export_file]
-      if !centra_export_file || centra_export_file.empty?
+      if centra_export_file.blank?
         puts "You must provide a Centra export file path."
         puts "USAGE:"
         puts "    $ #{name} --help"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Centra
   class OrderFilter
     def initialize(countries: [], date_range: nil)

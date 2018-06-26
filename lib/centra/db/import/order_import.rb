@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'centra/db/connection'
-require 'centra/db/import/csv_import'
+require "centra/db/connection"
+require "centra/db/import/csv_import"
 
 module Centra
   module DB

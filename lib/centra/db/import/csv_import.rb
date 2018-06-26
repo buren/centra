@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'centra/db/connection'
+require "centra/db/connection"
 
 module Centra
   module DB

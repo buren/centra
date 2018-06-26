@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 begin
-  require 'pg'
+  require "pg"
 rescue LoadError
 end
 

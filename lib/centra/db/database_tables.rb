@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Centra
   class DatabaseTables
     NAMES = {
       orders: :centra_orders,
-      products: :centra_products,
+      products: :centra_products
     }.map { |k, v| [k.to_s, v.to_s] }.to_h.freeze
 
     def initialize
@@ -21,7 +23,7 @@ module Centra
       end
 
       unless [String, Symbol].include?(value.class)
-        raise(TypeError, 'value must be a string or a symbol')
+        raise(TypeError, "value must be a string or a symbol")
       end
 
       @names[key] = value.to_s

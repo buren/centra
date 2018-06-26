@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "honey_format"
 
 module Centra
@@ -64,7 +66,7 @@ module Centra
     end
 
     def inspect
-      "#<#{self.class.name}:#{"0x00%x" % (object_id << 1)}(header: #{@csv&.header&.join(', ')})"
+      "#<#{self.class.name}:#{format('0x00%x', (object_id << 1))}(header: #{@csv&.header&.join(', ')})"
     end
   end
 end

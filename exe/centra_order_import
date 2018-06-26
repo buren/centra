@@ -1,13 +1,14 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # for dev purposes
-require "bundler/setup" if ENV['CENTRA_GEM_DEV']
+require "bundler/setup" if ENV["CENTRA_GEM_DEV"]
 
 require "centra"
 require "centra/cli"
 require "centra/db"
 
-args = Centra::ImportCLI.parse!(name: 'centra_order_import')
+args = Centra::ImportCLI.parse!(name: "centra_order_import")
 
 Centra.configure do |config|
   config.logger = args.fetch(:logger, Centra::NullLogger.new)
@@ -16,14 +17,14 @@ end
 
 print "Reading Centra order export file.."
 file = File.read(args[:centra_export_file])
-puts 'done!'
+puts "done!"
 order_filter = Centra::OrderFilter.new(
   date_range: Centra::DateRange.new(args[:start_date], args[:end_date]),
   countries: args.fetch(:countries, [])
 )
-print "Parsing#{" and anonymizing " if args[:anonymize]} CSV-file (this may take a while).."
+print "Parsing#{' and anonymizing ' if args[:anonymize]} CSV-file (this may take a while).."
 centra_csv = Centra::OrderCSV.new(file, anonymize: args[:anonymize])
-puts 'done!'
+puts "done!"
 orders = Centra::Orders.new(centra_csv, order_filter)
 
 print "Connecting to database.."

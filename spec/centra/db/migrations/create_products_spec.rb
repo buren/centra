@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
-require 'centra/db/migrations/create_products'
+require "centra/db/migrations/create_products"
 
 RSpec.describe Centra::Migrations::CreateProducts do
   let(:mock_connection) do
@@ -12,17 +12,17 @@ RSpec.describe Centra::Migrations::CreateProducts do
     end.new
   end
 
-  describe '#up' do
-    it 'has CREATE TABLE products' do
+  describe "#up" do
+    it "has CREATE TABLE products" do
       executed_sql = described_class.new(mock_connection).up
-      expect(executed_sql).to include('CREATE TABLE centra_products')
+      expect(executed_sql).to include("CREATE TABLE centra_products")
     end
   end
 
-  describe '#down' do
-    it 'drops products table' do
+  describe "#down" do
+    it "drops products table" do
       executed_sql = described_class.new(mock_connection).down
-      expect(executed_sql.strip).to eq('DROP TABLE centra_products;')
+      expect(executed_sql.strip).to eq("DROP TABLE centra_products;")
     end
   end
 end

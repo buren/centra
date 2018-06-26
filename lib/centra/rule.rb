@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "centra/rule/csv_header_converter"
 require "centra/rule/order_compare"
 require "centra/rule/order_matcher"

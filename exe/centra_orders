@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # for dev purposes
-require "bundler/setup" if ENV['CENTRA_GEM_DEV']
+require "bundler/setup" if ENV["CENTRA_GEM_DEV"]
 
 # CLI
 require "csv"
@@ -11,7 +12,7 @@ require "centra/cli"
 
 include Centra
 
-args = OrderCLI.parse!(name: 'centra_orders')
+args = OrderCLI.parse!(name: "centra_orders")
 
 Centra.configure do |config|
   config.logger = args.fetch(:logger, NullLogger.new)
@@ -20,7 +21,7 @@ end
 print "Reading Centra order export file.."
 centra_orders_csv_file = File.read(args.fetch(:centra_export_file))
 puts "done!"
-print "Parsing#{" and anonymizing " if args[:anonymize]} CSV-file (this may take a while).."
+print "Parsing#{' and anonymizing ' if args[:anonymize]} CSV-file (this may take a while).."
 centra_csv = OrderCSV.new(centra_orders_csv_file, anonymize: args[:anonymize])
 puts "done!"
 
@@ -53,7 +54,7 @@ if order_freq_output = args[:order_freq_output]
   print "Writing order frequency CSV-file #{order_freq_output}.."
   CSV.open(order_freq_output, "w") do |output_csv|
     output_csv << %w[email order_count]
-    sorted_orders_per_email_asc = result[:orders_per_email].to_a.sort_by { |d| d.last }
+    sorted_orders_per_email_asc = result[:orders_per_email].to_a.sort_by(&:last)
     sorted_orders_per_email_asc.reverse_each { |row| output_csv << row }
   end
   puts "done!"

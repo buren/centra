@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'centra/db/connection'
+require "centra/db/connection"
 
 module Centra
   module DB
@@ -15,12 +15,12 @@ module Centra
 
       # Perform migration
       def up
-        raise(NotImplementedError, 'this method should be implemented in subclass')
+        raise(NotImplementedError, "this method should be implemented in subclass")
       end
 
       # Undo migration
       def down
-        raise(NotImplementedError, 'this method should be implemented in subclass')
+        raise(NotImplementedError, "this method should be implemented in subclass")
       end
 
       protected
