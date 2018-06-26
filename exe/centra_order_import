@@ -4,26 +4,24 @@
 require "bundler/setup" if ENV['CENTRA_GEM_DEV']
 
 require "centra"
-require "centra/cli/order_import_cli"
+require "centra/cli/import_cli"
 
-require 'centra/db/connection'
+require "centra/db/connection"
 require "centra/db/import/order_import"
 require "centra/db/migrations"
 
-include Centra
-
-args = OrderImportCLI.parse!(name: 'centra_order_import')
+args = Centra::ImportCLI.parse!(name: 'centra_order_import')
 
 Centra.configure do |config|
-  config.logger = args.fetch(:logger, NullLogger.new)
+  config.logger = args.fetch(:logger, Centra::NullLogger.new)
   config.database.table_names.merge!(args.fetch(:table_names, {}))
 end
 
 print "Reading Centra order export file.."
 file = File.read(args[:centra_export_file])
 puts 'done!'
-order_filter = OrderFilter.new(
-  date_range: DateRange.new(args[:start_date], args[:end_date]),
+order_filter = Centra::OrderFilter.new(
+  date_range: Centra::DateRange.new(args[:start_date], args[:end_date]),
   countries: args.fetch(:countries, [])
 )
 print "Parsing#{" and anonymizing " if args[:anonymize]} CSV-file (this may take a while).."

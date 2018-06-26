@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+# for dev purposes
+require "bundler/setup" if ENV["CENTRA_GEM_DEV"]
+
+require "centra"
+require "centra/cli/import_cli"
+
+require "centra/db/connection"
+require "centra/db/import/product_import"
+require "centra/db/migrations"
+
+args = Centra::ImportCLI.parse!(name: "centra_product_import")
+
+Centra.configure do |config|
+  config.logger = args.fetch(:logger, Centra::NullLogger.new)
+  config.database.table_names.merge!(args.fetch(:table_names, {}))
+end
+
+print "Reading Centra product export file.."
+file = File.read(args[:centra_export_file])
+puts "done!"
+print "Parsing#{" and anonymizing " if args[:anonymize]} CSV-file (this may take a while).."
+centra_csv = Centra::ProductCSV.new(file, anonymize: args[:anonymize])
+puts "done!"
+products = Centra::Products.new(centra_csv)
+
+print "Connecting to database.."
+connection = Centra::DB::Connection.new(args[:db])
+puts "done!"
+
+if args[:reset_tables]
+  print "Dropping and creating products table.."
+  migration = Centra::Migrations::CreateProducts.new(connection)
+  migration.down
+  migration.up
+  puts "done!"
+end
+
+print "Importing products to database, this may take a while.."
+Centra::DB::ProductImport.call(products, connection: connection)
+puts "done!"
