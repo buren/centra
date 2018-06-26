@@ -1,9 +1,9 @@
 require "centra/model_csv"
-require "centra/csv_order_row_builder"
+require "centra/order"
 
 module Centra
   class OrderCSV < ModelCSV
-    COLUMN_MAP = {
+    column_map(
       "Order" => :order_id,
       "Order Date" => :order_date,
       "Paytype" => :paytype,
@@ -47,32 +47,66 @@ module Centra
       "EC Vat" => :ec_vat,
       "VAT#" => :vat_pound,
       "Collection" => :collection,
-    }.freeze
+    )
 
-
-    TYPE_MAP = {
+    type_map(
       order_date: :datetime!,
       captured_date: :datetime_or_unix_epoch,
-      pcs: :integer,
-      total_order_value_sek: :decimal,
-      vat_deduct: :decimal,
-      captured: :decimal,
-      product_order_value_ex_vat: :decimal,
-      shipping_value_ex_vat: :decimal,
-      voucher_value_ex_vat: :decimal,
-      total_order_value_ex_vat: :decimal,
-      vat: :decimal,
-      total_order_value_inc_vat: :decimal,
-      refunded: :decimal,
-      currency_rate: :decimal,
-      vat_sek: :decimal,
-      shipping_value_ex_vat_sek: :decimal,
-      voucher_value_ex_vat_sek: :decimal,
-    }.freeze
+      pcs: :integer_or_zero,
+      total_order_value_sek: :decimal_or_zero,
+      vat_deduct: :decimal_or_zero,
+      captured: :decimal_or_zero,
+      product_order_value_ex_vat: :decimal_or_zero,
+      shipping_value_ex_vat: :decimal_or_zero,
+      voucher_value_ex_vat: :decimal_or_zero,
+      total_order_value_ex_vat: :decimal_or_zero,
+      vat: :decimal_or_zero,
+      total_order_value_inc_vat: :decimal_or_zero,
+      refunded: :decimal_or_zero,
+      currency_rate: :decimal_or_zero,
+      vat_sek: :decimal_or_zero,
+      shipping_value_ex_vat_sek: :decimal_or_zero,
+      voucher_value_ex_vat_sek: :decimal_or_zero,
+    )
+
+    anonymize_type_map(
+      delivery_email: :md5,
+      payment_reference: :nil,
+    )
+
+    class RowBuilder
+      # All these fields might not be in the CSV-export
+       MAYBE_FIELDS = %i[
+         billing_name billing_company billing_address billing_coaddress billing_zipcode
+         delivery_name delivery_company delivery_address delivery_coaddress delivery_zipcode
+       ].freeze
+
+      def initialize(anonymize = true)
+        @anonymize = anonymize
+        @fields = MAYBE_FIELDS.dup
+      end
+
+      def call(row)
+        anonymize!(row) if @anonymize
+        Order.new(row)
+      end
+
+      def anonymize!(row)
+        converter = HoneyFormat.value_converter[:md5]
+        missing = []
+        @fields.each do |field|
+          next missing << field unless row.respond_to?(field)
+          row[field] = converter.call(row[field])
+        end
+
+        # Since all rows will have the same columns we remove
+        # all fields that have not been found
+        @fields = @fields - missing
+      end
+    end
 
     def initialize(csv_string, anonymize: true)
-      row_builder = CSVOrderRowBuilder.new(anonymize: anonymize)
-      super(csv_string, row_builder: row_builder)
+      super(csv_string, row_builder: RowBuilder.new(anonymize), anonymize: anonymize)
     end
   end
 end

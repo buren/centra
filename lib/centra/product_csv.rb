@@ -2,7 +2,7 @@ require "centra/model_csv"
 
 module Centra
   class ProductCSV < ModelCSV
-    COLUMN_MAP = {
+    column_map(
       "Order" => :order_id,
       "Email" => :email,
       "Newsletter" => :newsletter,
@@ -21,10 +21,9 @@ module Centra
       "Base Total" => :base_total,
       "Base Total VAT" => :base_total_vat,
       "Base Currency" => :base_currency,
-    }.freeze
+    )
 
-    TYPE_MAP = {
-      email: :md5,
+    type_map(
       newsletter: :boolean,
       created_at: :datetime,
       quantity: :integer,
@@ -32,7 +31,9 @@ module Centra
       total_vat: :decimal,
       base_total: :decimal,
       base_total_vat: :decimal,
-    }.freeze
+    )
+
+    anonymize_type_map(email: :md5)
 
     def initialize(csv_string, anonymize: true)
       super(csv_string, row_builder: ->(row) { Product.new(row) })
