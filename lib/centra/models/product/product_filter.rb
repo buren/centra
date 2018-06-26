@@ -1,10 +1,8 @@
-# frozen_string_literal: true
-
 module Centra
-  class OrderFilter < ModelFilter
+  class ProductFilter < ModelFilter
     def initialize(countries: [], date_range: nil)
       super(
-        fields: { country: :delivery_country, datetime: :order_date },
+        fields: { country: :country, datetime: :created_at },
         countries: countries,
         date_range: date_range,
       )

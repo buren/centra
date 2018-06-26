@@ -9,7 +9,7 @@ module Centra
       new(centra_data).calculate
     end
 
-    attr_reader :result, :order_filter
+    attr_reader :result
 
     def initialize(orders)
       @orders = orders
