@@ -1,5 +1,4 @@
 require "csv"
-require "centra/order"
 
 module Centra
   module Rule

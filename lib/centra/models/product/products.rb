@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'centra/product'
-
 module Centra
   class Products
     include Enumerable

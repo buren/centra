@@ -1,5 +1,3 @@
-require "centra/model_csv"
-
 module Centra
   class ProductCSV < ModelCSV
     column_map(

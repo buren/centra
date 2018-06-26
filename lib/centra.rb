@@ -11,16 +11,7 @@ require "centra/helpers/consistent_anon_store"
 
 require "centra/csv_header_converter"
 require "centra/helpers/date_range"
-require "centra/order"
-require "centra/orders"
-require "centra/order_csv"
-require "centra/order_filter"
-require "centra/order_stats"
-
-require "centra/product"
-require "centra/products"
-require "centra/product_csv"
-
+require "centra/models"
 require "centra/rule"
 
 module Centra

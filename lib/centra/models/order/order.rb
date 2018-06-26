@@ -1,5 +1,3 @@
-require "centra/model"
-
 module Centra
   class Order < Model
     def id

@@ -1,6 +1,3 @@
-require "centra/model_csv"
-require "centra/order"
-
 module Centra
   class OrderCSV < ModelCSV
     column_map(

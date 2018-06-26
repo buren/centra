@@ -1,8 +1,6 @@
 require "set"
 require "time"
 
-require 'centra/orders'
-
 module Centra
   class OrderStats
     def self.calculate(centra_data)
