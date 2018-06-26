@@ -15,14 +15,14 @@ RSpec.describe Centra::Migrations::CreateProducts do
   describe '#up' do
     it 'has CREATE TABLE products' do
       executed_sql = described_class.new(mock_connection).up
-      expect(executed_sql).to include('CREATE TABLE products')
+      expect(executed_sql).to include('CREATE TABLE centra_products')
     end
   end
 
   describe '#down' do
     it 'drops products table' do
       executed_sql = described_class.new(mock_connection).down
-      expect(executed_sql.strip).to eq('DROP TABLE products;')
+      expect(executed_sql.strip).to eq('DROP TABLE centra_products;')
     end
   end
 end
