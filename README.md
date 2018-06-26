@@ -1,11 +1,23 @@
 # Centra
 
-Dealing with Centra stuff, i.e
+Dealing with Centra stuff, features include
 
-- reading export files and generating summaries.
-- matching Centra orders with Rule orders
+- [Reading export files and generating summaries](#cli-usage)
+- [Matching Centra orders with Rule orders](#rule-order-matcher)
+- [Import data to a PostgreSQL database](#database-import)
+- [Anonymize data](#cli-usage)
+- [CLI](#cli-usage)
 
-## Usage
+## CLI Usage
+
+Available CLIs:
+
+- `centra_orders` - Various simple tasks
+- `centra_order_import` - Import orders from CSV to database
+- `centra_product_import` - Import products from CSV to database
+- `centra_rule_matcher` - Match Centra and Rule orders
+
+Use `<command> --help` to see all options.
 
 __Centra stats__
 
@@ -56,7 +68,7 @@ Purchase frequency       1.544049459041731
 Customer value           1318.948686244204
 ```
 
-__Rule order matcher__
+## Rule order matcher
 
 ```
 $ centra_rule_matcher --help
@@ -75,7 +87,9 @@ $ centra_rule_matcher --rule=rule_orders.csv       \
                       --end-date=2018-01-01
 ```
 
-__Import orders to PostgreSQL database__
+## Database import
+
+__Orders__
 
 ```
 $ centra_order_import --help
@@ -85,6 +99,24 @@ Example
 
 ```
 $ centra_order_import --centra-export=sample-orders.csv \
+                      --dbname=dbname \
+                      --user=dbuser \
+                      --password=dbpassword \
+                      --host=127.0.0.1 \
+                      --anonymize \
+                      --logger=STDOUT
+```
+
+__Products__
+
+```
+$ centra_product_import --help
+```
+
+Example
+
+```
+$ centra_product_import --centra-export=sample-products.csv \
                       --dbname=dbname \
                       --user=dbuser \
                       --password=dbpassword \
