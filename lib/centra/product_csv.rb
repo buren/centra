@@ -3,26 +3,26 @@ require "centra/csv_product_row_builder"
 
 module Centra
   class ProductCSV < ModelCSV
-      COLUMN_MAP = {
-        "Order" => :order_id,
-        "Email" => :email,
-        "Newsletter" => :newsletter,
-        "Created" => :created_at,
-        "Country" => :country,
-        "Brand" => :brand,
-        "SKU" => :sku,
-        "Product" => :product_name,
-        "Variant" => :variant,
-        "Folder" => :folder,
-        "Size" => :size,
-        "Qty" => :quantity,
-        "Total" => :total,
-        "Total VAT" => :total_vat,
-        "Currency" => :currency,
-        "Base Total" => :base_total,
-        "Base Total VAT" => :base_total_vat,
-        "Base Currency" => :base_currency,
-      }.freeze
+    COLUMN_MAP = {
+      "Order" => :order_id,
+      "Email" => :email,
+      "Newsletter" => :newsletter,
+      "Created" => :created_at,
+      "Country" => :country,
+      "Brand" => :brand,
+      "SKU" => :sku,
+      "Product" => :product_name,
+      "Variant" => :variant,
+      "Folder" => :folder,
+      "Size" => :size,
+      "Qty" => :quantity,
+      "Total" => :total,
+      "Total VAT" => :total_vat,
+      "Currency" => :currency,
+      "Base Total" => :base_total,
+      "Base Total VAT" => :base_total_vat,
+      "Base Currency" => :base_currency,
+    }.freeze
 
     def initialize(csv_string, anonymize: true)
       row_builder = CSVProductRowBuilder.new(anonymize: anonymize)
