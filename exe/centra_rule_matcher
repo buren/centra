@@ -6,7 +6,7 @@ require "bundler/setup" if ENV['CENTRA_GEM_DEV']
 require "honey_format"
 
 require "centra"
-require "centra/cli/rule_cli"
+require "centra/cli"
 
 include Centra
 

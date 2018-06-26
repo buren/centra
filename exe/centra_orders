@@ -7,7 +7,7 @@ require "bundler/setup" if ENV['CENTRA_GEM_DEV']
 require "csv"
 
 require "centra"
-require "centra/cli/order_cli"
+require "centra/cli"
 
 include Centra
 

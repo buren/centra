@@ -1,7 +1,5 @@
 require "optparse"
 
-require "centra/cli/cli_utils"
-
 module Centra
   class OrderCLI
     def self.parse!(name:, argv: ARGV)

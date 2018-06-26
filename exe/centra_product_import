@@ -4,8 +4,7 @@
 require "bundler/setup" if ENV["CENTRA_GEM_DEV"]
 
 require "centra"
-require "centra/cli/import_cli"
-
+require "centra/cli"
 require "centra/db"
 
 args = Centra::ImportCLI.parse!(name: "centra_product_import")
