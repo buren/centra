@@ -6,7 +6,7 @@ RSpec.describe Centra::ModelCollection do
   let(:stockholm_filter) do
     Class.new do
       def allow?(record)
-        record.city == 'stockholm'
+        record.city == "stockholm"
       end
     end.new
   end
@@ -77,7 +77,7 @@ RSpec.describe Centra::ModelCollection do
       collection = described_class.new(matrix, stockholm_filter)
 
       collection.each do |model|
-        expect(model.city).to eq('stockholm')
+        expect(model.city).to eq("stockholm")
       end
     end
   end
