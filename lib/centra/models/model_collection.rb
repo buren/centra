@@ -16,8 +16,7 @@ module Centra
     end
 
     def columns
-      return [] unless @records.any?
-      @records.first.members
+      @records.header.columns
     end
 
     def all
