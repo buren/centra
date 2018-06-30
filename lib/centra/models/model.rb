@@ -6,8 +6,11 @@ module Centra
       @data = data
     end
 
-    def to_csv
-      row = members.map do |column_name|
+    def to_csv(columns: nil)
+      attributes = members
+      attributes = columns & attributes if columns
+
+      row = attributes.map do |column_name|
         column = public_send(column_name)
         if column.respond_to?(:to_csv)
           column.to_csv
@@ -16,7 +19,7 @@ module Centra
         end
       end
 
-      CSV.generate_line(row)
+      ::CSV.generate_line(row)
     end
 
     # @return [Array<Symbol>] list of order attribute names
