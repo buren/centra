@@ -10,6 +10,13 @@ RSpec.describe Centra::OrderCSV do
 
       expect(data.header.first).to eq(:order_id)
     end
+
+    it "can return column with 'difficult' name" do
+      csv_string = File.read("spec/data/10_orders.csv")
+      data = Centra::OrderCSV.new(csv_string)
+
+      expect(data.header).to include(:shipping_value_ex_vat_sek)
+    end
   end
 
   describe "#rows" do
